@@ -1,0 +1,140 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov 21 10:45:16 2014
+
+@author: Ing. Lukas Bures
+@email: lbures@kky.zcu.cz
+@credits: 
+@version: 3.0.0
+
+Revision Note:
+3.0.0 - 24.11.2016 - Updated for OpenCV 3.1.0 version
+"""
+
+import cv2
+import numpy as np
+import os
+from skimage.feature import hog
+
+
+def bgr_dist(img):
+    """
+        Provede transformaci obrazku.
+    """
+    imgout = np.sqrt(np.power(img[:, :, 0], 2.0) + np.power(img[:, :, 1], 2.0) + np.power(img[:, :, 2], 2.0))
+    imgout = (imgout / imgout.max()) * 255
+    imgout = np.uint8(imgout)
+    return imgout
+
+
+def train_rf(data, responses):
+    """
+        Natrenuje Random Forest
+    """
+
+    # TODO: implementace trenovani random forest
+
+
+
+    return my_rf
+
+
+def read_data(data_path, n_cls):
+    """
+        Nacte obrazky
+    """
+    datas = []
+    labels = []
+
+    for i in range(0, n_cls):
+        p = data_path + "/" + str(i) + "/"
+        for fn in os.listdir(p):
+            gs = cv2.imread(p + fn, cv2.IMREAD_COLOR)
+            datas.append(gs)
+            labels.append(i)
+
+    return datas, labels
+
+
+def train(cls_path, n_cls):
+    """
+        Nacte obrazky, spocita FV a natrenuje Random Forest.
+    """
+    print
+    print "--------------------------------------------------------"
+    print "Vypocet FV z trenovaci sady:"
+    train_data, train_labels = read_data(cls_path, n_cls)
+    train_fv = list()
+    train_label = list()
+
+
+    # TODO: implementace trenovani
+
+
+    return rf
+
+
+def compute_confusion(labels_gt, labels_test):
+    """
+        Spocita matici zamen.
+    """
+
+    # TODO: implementace matice zamen
+
+
+    return confusion
+
+
+def test(cls_path, n_cls, rf):
+    print
+    print "--------------------------------------------------------"
+    print "Vypocet FV z testovaci sady:"
+
+    test_data, test_labels = read_data(cls_path, n_cls)
+    test_fv = list()
+    test_label = list()
+
+
+
+
+    # TODO: implementace testovani
+
+
+
+
+
+
+
+
+
+    print
+    print "--------------------------------------------------------"
+    print
+    predicted = np.squeeze(predicted)
+
+    print "--------------------------------------------------------"
+    print "Vysledky klasifikace:"
+    print "Chybne klasifikovano:",
+    print np.sum(predicted != np.asarray(test_label, dtype='float32')),
+    print "/", len(predicted)
+    err = (predicted != np.asarray(test_label, dtype='float32')).mean()
+    print 'Error: %.2f %%' % (err * 100)
+    print "--------------------------------------------------------"
+    print
+
+    confusion = compute_confusion(test_label, list(predicted))
+    print "--------------------------------------------------------"
+    print "Confusion matrix:"
+    print confusion
+    print "--------------------------------------------------------"
+    print
+
+
+if __name__ == "__main__":
+    n_class = 5
+    clsTrainPath = "./img/train/"
+    clsTestPath = "./img/test/"
+    # cv2.namedWindow("HOG Img", 0)
+
+    trained_rf = train(clsTrainPath, n_class)
+    test(clsTestPath, n_class, trained_rf)

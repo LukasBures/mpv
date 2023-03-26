@@ -1,0 +1,342 @@
+
+%% ------------------------
+
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{bm} % abych mohl psat tucne
+\usepackage[czech]{babel} % cestina
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[unicode]{hyperref} % odkazy v pdf, www a na e-mail
+\usepackage{graphicx} % obrazky
+\usepackage{epstopdf} % obrazky
+\usepackage{caption} % obrazky abych mohl udelat v popisku \\ ~
+\usepackage{subcaption} % obrazky abych mohl udelat v popisku \\ ~
+\usepackage{abraces, mathtools} % svorka zespoda
+\linespread{1.10} % radkovani 1.3 odpovida radkovani 2
+\usepackage{lmodern} % daji se pouzit \HUGE atd.
+
+\usepackage[numbered,framed]{matlab-prettifier} %vkladani kodu matlabu
+\lstset{style = Matlab-editor, basicstyle = \mlttfamily, escapechar = ", mlshowsectionrules = true,}
+
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode} % Vkladani pseudo kodu
+
+\usepackage{color}
+
+
+
+
+%------------------DRAFT----------------------------
+\usepackage{draftwatermark}
+\SetWatermarkLightness{0.95}
+\SetWatermarkScale{1}
+\SetWatermarkText{DRAFT}
+
+%------------------LAYOUT----------------------------
+\usepackage[top = 2.5 cm, bottom = 2.5 cm, left = 2.5 cm, right = 2.5 cm]{geometry} % geometrie stranky
+\usepackage{longtable}% Pro dlouhy obsah, da se zalomit \pagebrek
+\usepackage{fancyhdr}
+\pagestyle{fancy}% Deffaultni nastaveni hlavicky a paticky
+\setlength{\headheight}{16 pt}% Zvetsi hlavicku, aby to nedelalo warningy
+\fancyhf{}
+%\lhead{\bfseries \leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Poslední úpravy: \today}
+
+%****************************************************
+\begin{document}
+
+ 
+%--------TITULNI-STRANA------------------------------
+\begin{titlepage}
+\begin{center}
+	\vspace*{\fill}
+	\textbf{\Huge{Obsah cvičení předmětu MPV}}\\
+	\vspace*{\fill}
+	\textbf{\large{\href{mailto:LBures@kky.zcu.cz}{Ing. Lukáš Bureš}}} \hfill \textbf{\large{Plzeň}}\\
+	\textbf{\large{Katedra kybernetiky}} \hfill \textbf{\large{\today}}
+\end{center}
+\end{titlepage}
+
+
+%--------OBSAH----------------------------------------
+\setcounter{page}{1}
+\pagenumbering{Roman}
+
+\tableofcontents
+\newpage
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+%--------1----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{ \textbf{Obsah přednášky:} Adaptive Histogram Equalization, Contrast-Limited Adaptive Histogram Equaliyation (CLAHE), Vyhlzování histogramů, Non-Maximum Supression - automatický odhad prahu, Otsu metoda automatické detekce prahu, GMM - EM}
+	\item \par{\textbf{Obsah cvičení:} Představení sebe, e-mail, kancelář, bude to těžší než ZDO, za co bude zápočet: 3 semestrální práce, v ideálním případě na sebe budou navazovat a budou se odevzdávat pomocí automatického odevzdávače (\textbf{SAKO} - \textbf{S}ystém \textbf{A}utomatické \textbf{KO}ntroly semestrálních prací), povolené programovací jazyky Python (Možná plus OpenCV) a MATLAB, na zápočet alespoň 60\% všech bodů, bude 1/4 bodů za aktivitu ve cvičeních?, jaká bude zkouška (kombinovaná? bude test? nebo jen ústní)}
+	\par{Vyzkoušet si automatický odevzdávač (SAKO) jestli bude už k dispozici. Otevřít si MATLAB/Python a vyzkoušet si CLAHE, Otsu prahování + počítání objektů zrnka rýže atd. \href{http://docs.opencv.org/master/doc/py_tutorials/py_imgproc/py_histograms/py_histogram_equalization/py_histogram_equalization.html}{(Histogram Equalization, CLAHE, OpenCV, Python)}}
+	
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+%--------2----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{ \textbf{Obsah přednášky:} Mean-shift - princip, ukázka segmentace podle barev, Markov Random Fields (MRF), Graph-Cut}
+	\item \par{\textbf{Obsah cvičení:} Max-flow vysvětlení na 2px příkladu, Max-flow naprogramovat, praktická ukázka segmentace, naprogramovat Mean-shift, \href{http://docs.opencv.org/trunk/doc/py_tutorials/py_imgproc/py_grabcut/py_grabcut.html}{Grab-Cut {\color{red}???}} \href{http://docs.opencv.org/trunk/doc/py_tutorials/py_video/py_meanshift/py_meanshift.html}{Meanshift and Camshift, OpenCV, Python}, \href{http://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html}{sklearn mean-shift}, \href{http://research.microsoft.com/pubs/150437/ibfs-proc.pdf}{Max-flow pro huste grafy - rychlejsi}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+%--------3----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} Spline + Active Contours, Canny Corner Detector, Harris Corner Detector}
+	\item \par{\textbf{Obsah cvičení:} Popsat spline zmínit NURBS, naprogramovat Harris Corner Detector (bude připravená kostra programu), dále naprogramovat interpolaci získaných bodů pomocí jednoduché (kubické) interpolace , vyzkoušet SAKO podruhé, \href{http://docs.opencv.org/master/doc/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html}{Harris Corner Detector 1, OpenCV, Python}, \href{http://docs.opencv.org/doc/tutorials/features2d/trackingmotion/harris_detector/harris_detector.html}{Harris Corner Detector 2, OpenCV, C++}}, \href{http://www.janeriksolem.net/2009/01/harris-corner-detector-in-python.html}{Harris Corner Detector, Python, NO\_OpenCV}
+	\item \par{\textbf{Zadání 1. semestrální práce:} {\color{red} ???}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+%--------4----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} SIFT, SURF, ORB, MSER, RANSAC}
+	\item \par{\textbf{Obsah cvičení:} \href{http://docs.opencv.org/trunk/doc/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html?highlight=sift}{SIFT}, \href{http://docs.opencv.org/trunk/doc/py_tutorials/py_feature2d/py_surf_intro/py_surf_intro.html?highlight=surf}{SURF}, \href{http://docs.opencv.org/trunk/doc/py_tutorials/py_feature2d/py_orb/py_orb.html}{ORB} použít, vykreslit, porovnat rychlost. MSER naprogramovat {\color{red}jak je hledat korespondence pro RANSAC ???} , RANSAC - matchování bodů, \href{http://docs.opencv.org/trunk/doc/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html}{SIFT 1, OpenCV, Python}, \href{http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_feature2d/py_matcher/py_matcher.html}{SIFT 2, OpenCV, Python}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+
+%--------5----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} PCA, LDA, Active Shape Model (ASM), Active Appearance Model (AAM)}
+	\item \par{\textbf{Obsah cvičení:} Naprogramovat Active Shape Model (ASM) ({\color{red}Míra Hlaváč dodá podklady}). PCA naprogramovat. \href{http://cs.wikipedia.org/wiki/Analýza_hlavních_komponent}{PCA, Wikkipedia 1}, \href{http://en.wikipedia.org/wiki/Principal_component_analysis}{PCA, Wikipedia EN 2}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+%--------6----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} Texturový popis, Hu + Zernikeho momenty, LBP, HoG, Gabor, Wavelet, Haar-like features}
+	\item \par{\textbf{Obsah cvičení:} Face detector v OpenCV ukázat. Naprogramovat LBP, dotaz do DB textur, dej mi 9 nejbližších + vizualizace (bude napsáno).}
+	\item \par{\textbf{Zadání 2. semestrální práce:} {\color{red}???}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+%--------7----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} Princip klasifikace, lineární regrese, binární regrese, regularizace, AdaBoost, SVM, SVM - kernel trick}
+	\item \par{\textbf{Obsah cvičení:} Vysvětlení trénovací, testovací a cross validation sady. Precision, recall, F1 skore, false positiv atd. {\color{red}Bude dodán klasifikátor značka ne-značka od Marka} - úkolem bude z Google street-view si najít značku, printscreen, uložit jako obrázek a naprogramovat změnu velikosti spočítat HoG příznaky a klasifikovat jestli to je a nebo není značka.}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%--------8----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} Rozhodovací strom, rozhodovací les, náhodný rozhodovací les, Bayes klasifikátor, neuronové sítě - základ, plus ukázka hlubokých neuronových sítí}
+	\item \par{\textbf{Obsah cvičení:} {\color{red} Naprogramovat náhodný rozhodovací strom/les?} Porovnání klasifikátorů pomocí \textit{sklearn} (\href{http://scikit-learn.org/stable/auto_examples/plot_classifier_comparison.html}{porovnání klasifikátorů})}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%--------9----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} Optický tok, Lukas-Kanade, Background Subtraction, Block-matching, CAM-Shift.}
+	\item \par{\textbf{Obsah cvičení:} Cam-Shift v malování si vytvořit objekt, který se bude sledovat (objekt barevný okolí bílé / černé). Naprogramovat Background Subtraction (BS) natočených videích kutálejícího se míčku do krabice (porovnávat histogramy bloků obrazu ve dvou po sobě jdoucích snímcích). Ukázka OpenCV optického toku. \href{http://docs.opencv.org/trunk/doc/py_tutorials/py_video/py_lucas_kanade/py_lucas_kanade.html}{Optical Flow, Lucas-Kanade, OpenCV, Python}}
+	\item \par{\textbf{Zadání 3. semestrální práce:}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-------10----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:}Kalman Filter, Particle filter}
+	\item \par{\textbf{Obsah cvičení:} {\color{red} Particle Filter Marek pomůže s implementací.} Jinak bude Kalmanův Filtr s touto ukázkou \href{http://www.morethantechnical.com/2011/06/17/simple-kalman-filter-for-tracking-using-opencv-2-2-w-code/}{Kalman Filter, Odhad pohybu, OpenCV}, \href{http://www.hdm-stuttgart.de/~maucher/Python/ComputerVision/html/Tracking.html}{Tracking, Background Subtraction, OpenCV, Python}, , \href{http://jayrambhia.wordpress.com/2012/07/26/kalman-filter/}{Kalman Filter}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-------11----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} Definice geometrie, vnitřní a vnější parametry, fundamentální matice, epipolární geometrie, kalibrace kamery}
+	\item \par{\textbf{Obsah cvičení:} Kalibrace jedné kamery, kalibrační vzor, měření reálné metriky, měření vzdálenosti předmětu od kamery vzhledem k měnící se šířce objektu. \href{http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_calib3d/py_calibration/py_calibration.html}{Kalibrace jedné kamery, OpenCV, Python}, \href{http://docs.opencv.org/doc/tutorials/calib3d/camera_calibration/camera_calibration.html}{Kalibrace, OpenCV, C++}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+%-------12----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{Obsah přednášky:} Rektifikace obrazu, disparita, hloubková mapa, Kinect}
+	\item \par{\textbf{Obsah cvičení:} Stereo snímky, stereo kalibrace, vnitřní parametry, fundamentální matice, vizualizace epipolár, rektifikace, {\color{red}3D rekonstrukce nalezených bodů je nutné domyslet.}}
+	\par{{\color{blue} Zápočty pro ty, kdo mají už nárok na zápočet a odevzdány všechny semestrální práce.}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-------13----------------------------------------
+\section{Cvičení}
+\begin{itemize}
+	\item \par{\textbf{DEADLINE na odevzdávání prací!}}
+	\item \par{\textbf{Obsah přednášky:} {\color{red}Předtermín ?}}
+	\item \par{\textbf{Obsah cvičení:} {\color{blue} Zápočty pro ty co nechtějí jít na předtermín ?}}
+\end{itemize}
+\noindent\rule[0.5ex]{\linewidth}{0.4pt}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-------SEMESTRALKY-------------------------------
+\section*{Semestrální práce}
+\begin{enumerate}
+	\item \par{\textbf{Semestrální práce:}}
+	\item \par{\textbf{Semestrální práce:}}
+	\item \par{\textbf{Semestrální práce:}}
+\end{enumerate}
+
+\end{document}
+

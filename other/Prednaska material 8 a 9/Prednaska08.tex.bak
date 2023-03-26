@@ -1,0 +1,1160 @@
+
+
+
+%
+%\chapter{TODO}
+%
+%\par{ \textbf{Tuně psané si vezme na starost Lukáš.}}
+%
+%\begin{itemize}
+%	\item \par{Motivace - proč klasifikovat, co je to klasifikace, pojem experta,}
+%	
+%	\item \par{\textbf{Příznakový vektor - co to je, jak se sestavuje, (nevím jestli hovořit o volbě počtu příznaků a tím pádem o redukci příznaků, dále neví zda zmiňovat, že vektor nemusí obsahovat pouze reálná čísla}}
+%	
+%	\item \par{Učení s učitelem a \textbf{bez učitele(Volba počtu tříd)}}
+%	
+%	\item \par{Porovnávání vektorů II - na základě pravděpodobnostního rozdělení trénovací množiny, lineární/nelineární dělící rovina }
+%	
+%	\item \par{ \textbf{Ověření výsledku klasifikace - recall, precision, F1 skore}}
+%\end{itemize}
+%
+%
+%Update: 14. srpna 2014  
+%\begin{itemize}
+%	\item rozhodovaci les - co ta reference ?
+%	\item Odstraneny jednopismenkove spojky z koncu radek v kapitole \ref{sec:DecisionTree}-\ref{sec:DecisionWald}
+%	\item odstraněny warningy
+%\end{itemize}
+%
+%Update: 28. srpna 2014
+%\begin{itemize}
+%	\item Dodelany reference od Lukase
+%	\item Opraveny Petrovo uvozovky "" na \emph{\uv{}}
+%\end{itemize}
+%
+%Update: 9.9.2014
+%\begin{itemize}
+%	\item Lukáš: Bayese, Bez ucitele - Kmeans, mean-shift, aglomerativni, divizni, (two threshold ?)
+%	\item Petr:  Neuronovky, NN, KNN, Bayesuv nejak inteligentne - ne moc do hloubky, Perceptron
+%	\item Motivace - koho napadne nejakz blaf, tak to tam napise.
+%\end{itemize}
+%
+%
+%
+
+
+
+%-------PREDNASKA-08-------------------------------------------------------------------
+%-LUKAS-BURES-&-PETR-ZIMMERMANN-
+\chapter{Metody Počítačového Vidění: 8.~přednáška}
+\label{sec:07}
+
+
+
+
+
+
+
+
+
+%-------PRINCIP-KLASIFIKACE---------------------------------------------------------------
+\section{Princip klasifikace}
+\label{sec:07_Princip_Klasifikace}
+
+\par{Ve strojovém učení a statistice je klasifikace problém identifikace, ke kterému ze souboru kategorií patří nová pozorování a to na základě trénovací množiny dat. Příkladem by mohl být antispamový filtr, který na základě jména klasifikuje do složek \uv{je spam} nebo \uv{není spam}.}
+
+\par{V terminologii strojového učení je klasifikace za instanci učení s učitelem, tj učení, kde je k dispozici trénovací sada správně označených pozorování. Podobně, klasifikaci, kde není informace od učitele se říká shlukování a zahrnuje seskupování dat do kategorií na základě jisté míry přirozené podobnosti nebo vzdálenosti.}
+
+\par{Často mají jednotlivá pozorování sadu měřitelných vlastností. Tyto vlastnosti mohou představovat jednotlivé kategorie například typ krevní skupiny, pořadové číslo (\uv{malé}, \uv{střední}, \uv{velké}.}
+
+\par{Algoritmus, který provádí klasifikaci a to zejména v konkrétním provedení je známý jako klasifikátor. Termín \uv{klasifikátor} někdy také odkazuje na matematické funkce, realizované klasifikačním algoritmem, který mapuje vstupní data do kategorií.}
+
+\par{Terminologie skrze vědecké oblasti je velice pestrá. Ve statistice, kde se klasifikace často provádí binární regresí nebo obdobným postupem se pozorované proměnné nazývají \uv{nezávislé proměnné} a predikované kategorie jsou známé jako výsledky, které je možné považovat za závislé proměnné. Ve strojovém učení jsou pozorování známá jako instance a nezávislé proměnné jsou nazývány příznaky, které se sdružují do příznakových vektorů. Dále jsou kategorie nazývány třídami.}
+
+\newpage
+
+
+
+
+
+
+\subsection{Porovnání příznakových vektorů}
+\par{Jednotlivé příznakové vektory mohou být chápány jako body v mnohodimenzionálním prostoru a~úkolem klasifikace (klasifikátoru) je rozdělení tohoto prostoru na podprostory představující klasifikační třídy $\omega_{1,\ldots,N}$. Cílem je tedy rozdělit množinu příznakových vektorů $X$ na podmnožiny, tak aby platila následující podmínka
+\begin{eqnarray}
+	\nonumber
+	&\omega_{1,\ldots,N} &\subset X,\\
+	\nonumber
+	&\bigcup_{i=1}^N &= X,\\
+	\nonumber
+	&\omega_i \cap \omega_j &= \emptyset, \textrm{pro }~i,j=1,\ldots,N,~\textrm{ }~i\neq j,
+\end{eqnarray}}
+
+\par{Třídy (shluky) v sobě sdružují vektory, které jsou si navzájem podobné (viz Obr.~\ref{fig:porov01}~). Podobnost vektorů je subjektivní pojem a výsledek klasifikace tak musí být ověřen expertem, který rozhodne, zda je výsledek klasifikace přípustný. Obecně platí, že pokud je vhodně sestaven příznakový vektor, lze vektory rozřazovat do shluků na základě tzv. míry podobnosti či odlišnosti.
+\begin{figure}[!ht]
+	\centering
+	%trim option's parameter order: left bottom right top
+	%\fbox{
+	\includegraphics[width = 0.6\textwidth, trim = 3cm 7.5cm 2cm 9cm]{./Img/Prednaska08/Porovnani/porov01.pdf}
+	\caption{Klasifikace do tří tříd.}
+	\label{fig:porov01}
+\end{figure}}
+
+\par{Obě míry interpretují vzdálenost dvou vektorů v prostoru. Liší se pouze tím, že míra podobnosti pro dva stejné vektory dosahuje maximálních hodnot, naopak míra odlišnosti je pro takové vektory minimální.}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+\subsection{Míra podobnosti}
+\par{Míra podobnosti $s$ dvou vektorů z množiny $X$ je definována jako
+\begin{equation}	
+	{s:X \times X \longrightarrow \mathcal{R},}
+\end{equation}
+kde $\mathcal{R}$ je množina reálných čísel, tak že
+\begin{eqnarray}
+	\exists s_0 \in \mathcal{R}:-\infty < s \left( \bm{x},\bm{y} \right) \geq s_0 < +\infty , &\quad \forall \bm{x},\bm{y}\in X,\\
+	%
+	s \left( \bm{x},\bm{y} \right)=s \left( \bm{y},\bm{x} \right), &\quad \forall \bm{x},\bm{y}\in X,\\
+	%
+	s \left( \bm{x},\bm{x} \right)=s_0, &\quad \forall \bm{x}\in X.~~~~
+\end{eqnarray}
+V praxi nejpoužívanější míry podobnosti jsou:
+\begin{itemize}
+	\item Skalární součin
+	\begin{equation}
+		s_\text{\textit{skal.souč.}} \left( \bm{x}, \bm{y} \right) = \bm{x}^{\top} \bm{y} = \sum_{ i = 1}^{l} x_i y_i,
+	\end{equation}
+	kde $l$ je dimenze vektorů $\bm{x}$ a $\bm{y}$. Skalární součin je používán v případě, že jsou porovnávané vektory normalizované, což znamená, že mají stejnou délku. Míra $s_\text{\textit{skal.souč.}} \left( \bm{x}, \bm{y} \right)$ vyjadřuje úhel svíraný vektory $\bm{x}$ a $\bm{y}$.
+	\item Kosinová podobnost
+	\begin{equation}
+		{s_{cos}\left(\bm{x},\bm{y}\right)=\frac{\bm{x}^{\top}\bm{y}}{\|\bm{x}\|\|\bm{y}\|},}
+	\end{equation}
+	kde $\|\bm{x}\|=\sqrt{\sum_{i=1}^lx_i^2}$ a $\|\bm{y}\|=\sqrt{\sum_{i=1}^ly_i^2}$ je délka vektoru $\bm{x}$, resp. $\bm{y}$.
+	\item Tanimotova míra
+	\begin{equation}
+		{s_T\left(\bm{x},\bm{y}\right)=\frac{\bm{x}^{\top}\bm{y}}{\|\bm{x}\|^2+\|\bm{y}\|^2-\bm{x}^{\top}\bm{y}}.}
+	\end{equation}
+\end{itemize}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Míra odlišnosti}
+\par{Míra podobnosti $d$ dvou vektorů z množiny $X$ je definována jako
+\begin{equation}	
+	{d:X \times X \longrightarrow \mathcal{R},}
+\end{equation}
+kde $\mathcal{R}$ je množina reálných čísel, tak že
+\begin{eqnarray}
+	\exists d_0 \in \mathcal{R}:-\infty \leq d_0 < d \left( \bm{x},\bm{y} \right) < +\infty , &\quad \forall \bm{x},\bm{y}\in X,\\
+	%
+	d \left( \bm{x},\bm{y} \right)=d \left( \bm{y},\bm{x} \right), & \quad \forall \bm{x},\bm{y}\in X,\\
+	%
+	d \left( \bm{x},\bm{x} \right) = d_0 , & \quad \forall \bm{x}\in X.~~~~
+\end{eqnarray}
+Mezi nejčastěji používané míry odlišnosti patří:
+\begin{itemize}
+	\item $l_p$-norma
+	\begin{equation}
+		{d_p\left(\bm{x},\bm{y}\right)=\left(\sum_{i=1}^l|x_i-y_i|^p\right)^\frac{1}{p}.}
+	\end{equation}
+	\item $l_1$-norma (tzv. norma Manhattan)
+	\begin{equation}
+		{d_1\left(\bm{x},\bm{y}\right)=\sum_{i=1}^l|x_i-y_i|.}
+	\end{equation}
+	\item $l_\infty$-norma
+	\begin{equation}
+		{d_\infty\left(\bm{x},\bm{y}\right)=\max_{1\leq i \leq l}|x_i-y_i|.}
+	\end{equation}
+\end{itemize}}
+
+\par{Výše uvedené míry mají i tzv. vážené formy. Ty získáme doplněním koeficientu $w_i~\geq~0$ před jednotlivé absolutní hodnoty, koeficient pak vyjadřuje váhy příslušných prvků příznakového vektoru. Díky svému chování jsou míry odlišnosti často označovány jako vzdálenost dvou vektorů. Známá Euklidova vzdálenost je získána pouhou modifikací $l_p$-normy.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Porovnání vektoru a třídy}
+\par{V mnoha klasifikačních algoritmech dochází k začlenění příznakového vektoru $\bm{x}$ do třídy $\omega$ na základě porovnání $\rho\left(\bm{x},\omega\right)$, přičemž porovnání $\rho$ může představovat jakoukoli míru podobnosti, resp. odlišnosti. V praxi se porovnání mezi vektorem a třídou provádí dvěma způsoby. V prvním jsou při stanovení $\rho\left(\bm{x},\omega\right)$ brány v potaz všechny vektory tvořící třídu $\omega$. Mezi typické představitele prvního způsobu porovnání vektoru a třídy patří:
+\begin{itemize}
+	\item Maximální podobnostní funkce
+	\begin{equation}
+		{\rho_{max}\left(\bm{x},\omega\right)=\max_{\bm{y}\in\omega}\rho\left(\bm{x},\bm{y}\right).}
+	\end{equation}
+	\item Minimální podobnostní funkce
+	\begin{equation}
+		{\rho_{min}\left(\bm{x},\omega\right)=\min_{\bm{y}\in\omega}\rho\left(\bm{x},\bm{y}\right).}
+	\end{equation}
+	\item Průměrná podobnostní funkce
+	\begin{equation}
+		{\rho_\text{\textit{prům.}}\left(\bm{x},\omega\right)=\frac{1}{n_\omega}\sum_{\bm{y}\in\omega}\rho\left(\bm{x},\bm{y}\right),}
+	\end{equation}
+	kde $n_\omega$ značí počet vektorů tvořících třídu $\omega$.
+\end{itemize}}
+
+\par{V druhém způsobu porovnání je třída zastoupena svým reprezentantem. Porovnání je v tomto případě stanoveno na základě vztahu $\rho\left(\bm{x},\omega_{rep}\right)$, přičemž $\omega_{rep}$ představuje vektor reprezentující třídu $\omega$. Je zřejmé, že za $\rho$ lze opět dosadit jakoukoli míru podobnosti či odlišnosti.}
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+\subsection{Reprezentant třídy}
+\par{Mezi typické volby reprezentanta třídy patří:
+\begin{itemize}
+	\item Průměr
+	\begin{equation}
+		{\bm{\omega}_p=\frac{1}{n_\omega}\sum_{\bm{y}\in\omega}\bm{y},}
+	\end{equation}
+	kde $n_\omega$ je počet prvků uvnitř třídy $\omega$. Průměr je nejčastější volbou reprezentanta třídy, jelikož je velice jednoduché ho stanovit. Nevýhodou ovšem je, že průměr nemusí být součástí třídy. Pokud usilujeme o to, aby reprezentant byl opravdu prvkem dané třídy je vhodnější zvolit střed či medián.
+	\item Střed $\bm{\omega}_c\in\omega$ je vektor splňující:
+	\begin{equation}	
+		\sum_{ \bm{y} \in \omega} d \left( \bm{\omega}_c, bm{y} \right) \leq \sum_{\bm{y}\in\omega} d \left( \bm{z}, \bm{y} \right), \quad \forall \bm{z} \in \omega,
+	\end{equation}
+	kde $d$ značí míru odlišnosti (pokud by byla použita míra podobnosti $s$ je nutné v~předpisu otočit znaménka nerovnosti).
+	\item Medián $\bm{\omega}_{med}\in\omega$ je vektor splňující:
+	\begin{equation}
+		med \left( d \left( \bm{\omega}_{med}, \bm{y} \right) | \bm{y} \in \omega \right) \leq med \left( d \left( \bm{z}, \bm{y} \right) | \bm{y} \in \omega \right), \quad \forall \bm{z} \in \omega,	
+	\end{equation}
+\end{itemize}
+kde $d$ je míra odlišnosti.}
+
+\par{Uvedené reprezentanty třídy lze použít pouze v případě, že je třída kompaktní (viz Obr. \ref{fig:porov02}). Pokud jsou prvky uvnitř třídy uspořádané lineárně či do kružnice (sféry) je vhodnější porovnávat vektory s těmito typy tříd na základě vzdálenosti od přímky (roviny), resp. kružnice (sféry).
+\begin{figure}[!ht]
+	\centering
+	%trim option's parameter order: left bottom right top
+	%\fbox{
+	\includegraphics[width = 0.6\textwidth, trim = 3cm 7.5cm 2cm 9cm]{./Img/Prednaska08/Porovnani/porov02.pdf}
+	\caption{Příklad třídy $a)$ kompaktní, $b)$ lineární a $c)$ sférické..}
+	\label{fig:porov02}
+\end{figure}}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----CO-JE-STROJOVE-UCENI-------------------------------------------------------------------
+\subsection{Co je strojové učení?}
+\label{sec:UvodCoJeStrojoveUceni}
+
+\par{Pojem strojové učení nemá dodnes pevně danou definici, můžeme si ukázat několik pokusů o jeho definování
+\begin{itemize}
+	\item Arthur Samuel (1959). Strojové učení: \textit{Obor, který dává počítačům schopnost učit se bez toho, aby byly přímo naprogramovány.}
+	\item Tom Mitchell (1998): Dobře definovaný problém strojového učení: \textit{Předpokladem je, že se počítačový program učí ze zkušeností \textbf{E} s respektováním úlohy \textbf{T} a s měřičem výkonu \textbf{P}, pokud se jeho výkon na úloze \textbf{T} měřený pomocí \textbf{P} zvyšuje se zkušeností \textbf{E}.}
+\end{itemize}}
+
+\par{Pokusme se jednotlivé části rozebrat na příkladu: Předpokládejme, že náš emailový klient sleduje, které email označíme nebo neoznačíme jako spam. Na základě tohoto rozhodnutí se náš emailový klient učí lépe rozpoznávat co je a co není spam. Nyní si můžeme položit otázku co z následujících tvrzení je úloha \textbf{T}?
+\begin{enumerate}
+	\item Klasifikace emailů jako spam nebo vyžádaný email.
+	\item Sledování značek od uživatele, který email označil jako spam nebo vyžádaný email.
+	\item Počet (nebo poměr) emailů, které byly správně klasifikovány jako spam nebo vyžádaný email.
+	\item Nic z výše uvedeného - není to problém strojového učení.
+\end{enumerate}
+Pokud si rozebereme jednotlivé body výše, tak bod jedna je definice úlohy \textbf{T}, dále bod dva je zkušenost \textbf{E} a třetí bod je náš měřič výkonu \textbf{P}.}
+
+\par{Existuje několik rozdílných typů učících se algoritmů. Hlavní dva typy se nazývají
+\begin{itemize}
+	\item učení s učitelem a
+	\item učení bez učitele.
+\end{itemize}}
+\newpage
+
+
+
+
+
+
+
+
+
+
+%----LINEARNI-REGRESE----------------------------------------------------------------
+\input{LinearniRegrese}
+
+%----BINARNI-REGRESE----------------------------------------------------------------
+\input{BinarniRegrese}
+
+%----REGULARIZACE-----------------------------------------------------------------
+\input{Regularizace}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----UCENI-S-UCITELEM-----------------------------------------------------------------
+\section{Učení s učitelem}
+\label{sec:UvodUceniSUcitelem}
+
+\par{\textbf{Učení s učitelem} je metoda strojového učení pro učení funkce z trénovacích dat. Trénovací data sestávají ze dvojic vstupních objektů (typicky vektorů příznaků) a požadovaného výstupu. Výstup funkce může být spojitá hodnota (při regresi) anebo může předpovídat označení třídy vstupního objektu (při klasifikaci). Úloha algoritmu učení je předpovídat výstupní hodnotu funkce pro každý platný vstupní objekt poté, co zpracuje trénovací příklady (tj. dvojice vstup a požadovaný výstup). Aby to dokázal, musí algoritmus zobecnit prezentovaná data na nové situace (vstupy) \uv{smysluplným} způsobem. Analogická úloha v lidské a zvířecí psychologii se často nazývá učení konceptů.
+
+\par{\textbf{Přetrénování} (anglicky \textit{overfitting}) je stav, kdy je systém příliš přizpůsoben množině trénovacích dat, ale nemá schopnost generalizace a selhává na testovací (validační) množině dat. To se může stát například při malém rozsahu trénovací množiny nebo pokud je systém příliš komplexní (například příliš mnoho skrytých neuronů v neuronové síti). Řešením je zvětšení trénovací množiny, snížení složitosti systému nebo různé techniky regularizace, zavedení omezení na parametry systému, které v důsledku snižuje složitost popisu naučené funkce, nebo předčasné ukončení (průběžné testování na validační množině a konec učení ve chvíli, kdy se chyba na této množině dostane do svého minima).}
+
+\par{Při učení se používají trénovací data (nebo trénovací množina), testovací data a často validační data.}
+
+\par{\textbf{Příklady algoritmů:} rozhodovací stromy, AdaBoost, náhodné rozhodovací lesy, metoda nejbližšího souseda, metoda K-nejbližších sousedů, lineární regrese, Bayesův klasifikátor, neuronové sítě, binární regrese, support vector machine (SVM), atd.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%------------------------------------------------------------------------------------------------------
+\subsubsection*{Metoda minimální vzdálenosti}
+\par{V každé třídě se snažíme najít typický prvek, který nazýváme etalon. Obraz klasifikovaného objektu pak porovnáme s etalony všech tříd a zařadíme jej do třídy, jejíž etalon je klasifikovanému obrazu nejpodobnější.
+Protože obrazy etalonu i klasifikovaného objektu jsou n-rozměrné vektory, můžeme podobnost definovat jako Euklidovu vzdálenost mezi nimi.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%------------------------------------------------------------------------------------------------------
+\subsubsection*{Metoda nejbližšího souseda}
+\par{Klasifikace podle nejbližších sousedů spadá mezi neparametrické metody klasifikace. Tyto metody jsou založeny na podstatně slabších předpokladech než metody parametrické. Nepředpokládáme znalost tvaru pravděpodobnostních charakteristik tříd.}
+
+\par{Metoda nejbližšího souseda je založena na hledání přímo aposteriorní pravděpodobnosti. Je myšlenkovým rozšířením metody klasifikace podle nejbližší vzdálenosti od etalonu.}
+
+\par{Známe trénovací množinu ${(x_i , \omega_i)}_{i= 1, \ldots, K}$. Kde $x_i$ je vzorek, kterému je přiřazena třída $\omega_i$ a $K$ je velikost trénovací množiny. Pro neznámý prvek $x$ hledáme $x'_i$ takové, že $\| x'_k - x\| = \min \| x'_k - x\|_{i = 1, \ldots , K}$. Prvek zařadíme do stejné třídy, do jaké náleží $x'_k$.}
+
+\par{Nejčastější je klasifikace podle jednoho souseda (1-NN), ale existuje i klasifikace pro obecně k sousedů.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%------------------------------------------------------------------------------------------------------
+\subsubsection*{Metoda $k$-nejbližších sousedů}
+\par{Algoritmus $k$-nejbližších sousedů (neboli $k$-NN) je algoritmus strojového učení pro rozpoznávání vzorů. Jde o metodu pro učení s učitelem, kdy se klasifikují prvky reprezentované více dimenzionálními vektory do dvou nebo více tříd. Ve fázi učení se předzpracuje trénovací množina tak, aby všechny příznaky měly střední hodnotu 0 a rozptyl 1, toto umístí každý prvek trénovací množiny do některého místa v $N$-rozměrném prostoru. Ve fázi klasifikace je umístěn dotazovaný prvek do téhož prostoru a najde se $k$ nejbližších sousedů. Objekt je pak klasifikován do té třídy, kam patří většina z těchto nejbližších sousedů.}
+
+\par{Pokud je $k = 1$, jde o speciální zjednodušený případ, metodu nejbližšího souseda. Pro hledání nejbližšího souseda v množině lze použít různé metriky. Nejobvyklejší je Euklidova metrika nebo Hammingova metrika.}
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-----UCENI-BEZ-UCITELEM-----------------------------------------------------------------
+\section{Učení bez učitele}
+\label{sec:UvodUceniBezUcitele}
+\par{\textbf{Učení bez učitele} je další metoda strojového učení. Často je také nazývána \textbf{shlukování}. Jejím hlavním cílem je odhalit spojitosti či souvislosti mezi předloženými \textbf{obrazy} (daty) a podle nich je \textbf{klasifikovat} (rozdělit) do jednotlivých \textbf{shluků} (skupin).}
+\par{Narozdíl od učení s učitelem \textbf{nemáme} během shlukování žádnou trénovací množinu dat. Před samotným procesem shlukováním je třeba zvolit vhodné příznaky, kterými budeme popisovat jednotlivé obrazy. Snažíme se samozřejmě počet potřebných příznaků minimalizovat (výpočetní náročnost, atd.) a proto vybíráme takové příznaky, které jsou co nejvíce informativní.} 
+\par{Po výběru příznaků je samozřejmě nutné zvolit vhodný shlukovací algoritmus. Tento výběr je ovlivněn mnoha faktory, jako například výpočetní náročnost, velikost klasifikované množiny, předpokládaný tvar shluků (viz obrázek \ref{fig:shluky}), atd.}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=8.5cm]{./Img/Prednaska08/BezUcitele/shluky.png}
+	\caption[Typy shluků]{(a)Kompaktní shluky, (b) Podlouhlé shluky, (c) Sférické a elipsoidní shluky}
+	\label{fig:shluky}
+\end{figure}
+
+\par{Shlukování se využívá v celé škále oborů, například v biologii, ekologii, sociologii, geografii, geologii a grafové teorii. Shlukování je také jednou z nejpřirozenějších mentálních aktivit člověka, který také vjemy a informace klasifikuje do jednotlivých tříd.}
+\par{\textbf{Příklady algoritmů:} Sekvenční algoritmy, K-means, Hierarchické algoritmy (aglomerativní, divizní), Fuzzy shlukování, Genetické shlukovací algoritmy, Algoritmy založené na morfologických operacích,...}
+
+
+
+
+
+
+
+%--------------------------------------------------------------------------------------------
+\subsubsection*{K-means (MacQueenův algoritmus)}
+\par{Jedná se o jeden z nejoblíbenějších a nejrozšířenějších shlukovacích algoritmů. Pro výpočet vzdálenosti mezi dvěma obrazy používá Euklidovu vzdálenost. Mezi jeho hlavní výhody patří jednoduchá implementace a nízká výpočetní náročnost. Mezi nevýhody naopak nutná znalost počtu tříd (shluků), do kterých budeme klasifikovat, a problematický výběr počátečního 'nástřelu' reprezentantů shluků. Algoritmus je vhodný pro kompaktní a sférické shluky a díky jeho rozšířenosti existuje mnoho jeho modifikací (K-methodois, PAM, CLARA, CLARANS). }
+\newpage
+Nyní bude uveden základní K-means algoritmus a dále podrobněji vysvětlen.
+
+\begin{algorithm}[h!]
+	\caption{K-means algoritmus}
+	\label{alg:kmeans}
+	\begin{algorithmic}[1]
+		\State Vstup: Vhodně zvolený odhad reprezentantů $\theta_{j}(0)$ pro j = 1,...,m.
+		
+		\State for i = 1 to N: rozhodni nejbližšího reprezentanta $\theta_{j}$ pro dané $x_i$, zařaď $x_i$ do shluku j.
+		\State for i = 1 to m: aktualizuj parametry: přepočti $\theta_{j}$ jako střední vektor j-tého shluku.
+		\State kroky 2 a 3 opakuj dokud se $\theta_j$ ve dvou po sobě jdoucích krocích nezmění.
+		\State Výstup: Středy shluků $\theta_j$ + kompletní shlukování pro všechny body
+
+	\end{algorithmic}
+\end{algorithm}
+
+\par{V prvním kroku algoritmu je po uživateli požadován počet shluků \textit{m} a vhodný nástřel středů shluků $\theta_j(0)$. Tato část je v praxi často velmi problematická, často je řešena tak, že \textit{j} počátečních nástřelů je zvoleno jako prvních \textit{j} členů dané množiny. Algoritmus se dále snaží minimalizovat následující kritérium 
+\begin{equation}
+	J(\theta,U) = \sum_{i=1}^{N}\sum_{j=1}^{m} u_{ij}||x_i-\theta_j||^2
+\end{equation}  
+kde N je počet shluků, m počet bodů množiny, $u_{ij} = 1$ pokud daný bod patří do daného shluku, v opačném případě je  $u_{ij} = 0$. Toho je docíleno tím, že každý bod je zařazen do do shluku od jehož reprezentanta má nejnižší Euklidovu vzdálenost. Po zařazení všech bodů do shluků jsou aktualizování jejich reprezentanti a celý algoritmus je spuštěn znovu. Algoritmus je ukončen ve chvíli, kdy reprezentanti nejsou změněni ve dvou po sobě jdoucích cyklech.}
+
+
+
+%--------------------------------------------------------------------------------------------
+\subsubsection*{Hierarchické algoritmy}
+\par{Na rozdíl od algoritmu K-means nepotřebujeme znát dopředu finální počet shluků. Jejich hlavní výhodou je, že po uživateli nejsou vyžadovány žádné počáteční parametry (na rozdíl od algoritmu K-means nepotřebujeme znát dopředu finální počet shluků, atd). Výsledkem těchto algoritmů není jen jediné shlukování, nýbrž jejich sekvence. Hierarchické algoritmy se dělí na dvě základní skupiny a to \textbf{aglomerativní} a \textbf{divizní}.  }
+\par{Základní myšlenkou aglomerativních algoritmů je v každém iteračním kroku spojit dva shluky (body) s nejvyšším kritériem podobnosti (nejnižší vzdáleností) do jediného shluku. Jestliže jsou dva vektory (obrazy) spojeny do stejného shluku v kroku \textit{t}, setrvají ve stejném shluku až do konce algoritmu. To znamená, že na počátku každý bod tvoří vlastní shluk, tyto body jsou postupně spojovány do větších, až v posledním kroku algoritmu zbude pouze jediný shluk obsahující všechny prvky množiny.}
+\par{Hierarchické algoritmy jsou vhodné pro kompaktní a podlouhlé shluky. Jejich výsledkem je, jak již bylo řečeno, sekvence shlukování. Tuto sekvenci lze přehledně zobrazit pomocí \textbf{dendogramu}. Jejich hlavní nevýhodou je nutnost vybrat správné shlukování ze získané sekvence. To lze zvolit pomocí několika přístupů, mezi ně patří například délka života shluků či definice maximálního prahu, po jehož překročení již shluky nebudou spojeny.}
+\par{Divizní algoritmy postupují přesně opačným způsobem než aglomerativní, takzvaně v~prvním kroku jsou všechny body členy jediného shluku a tento shluk je dále dělen až do chvíle, kdy každý bod je ve svém shluku sám. Nejsou příliš využívány vzhledem k jejich vysoké výpočetní náročnosti.}
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-------ADABOOST----------------------------------------------------------------------------
+%-LUKAS-BURES-
+\section{AdaBoost}
+\label{sec:07_AdaBoost}
+
+\par{Adaptive Boosting (AdaBoost nebo AB) je algoritmus klasifikace a má tyto zajímavé vlastnosti:
+\begin{itemize}
+	\item AdaBoost je lineární klasifikátor se všemi jeho potřebnými vlastnostmi.
+	\item Výstup AdaBoost konverguje k logaritmu věrohodnosti ( output converges to the logarithm of likelihood ratio).
+	\item AdaBoost dobře zobecňuje.
+	\item AdaBoost je příznakový selektor se zásadovou strategií (minimalizuje horní mez empirické chyby).
+	\item AdaBoost je podobný sekvenčnímu rozhodování (produkuje posloupnost postupně složitějších klasifikátorů).
+\end{itemize}}
+
+\subsection*{AdaBoost}
+\par{AdaBoost je algoritmus sestavující \uv{silný} klasifikátor jako lineární kombinaci \uv{slabých} klasifikátorů.}
+
+\par{\textbf{Příklad:} Nechť existuje imaginární závislý sázkař na dostihy, který se řídí nepsanými pravidly pro stanovení \textit{výhry} / \textit{prohry}: nejlepší kurz, nejrychlejší čas daného koně na kolo, nejvíce výher v~poslední době (například za poslední měsíc). Z~uvedeného lze konstatovat, že je velmi složité určit (na základě kombinace všech možných příznaků) na koho má gambler vsadit.}
+
+\par{\textbf{Příklad:} Rozhodování o přijmutí na FAV, jedná se o~binární klasifikaci (klasifikace do dvou tříd) \textit{Přijat} / \textit{Odmítnut}. V~tabulce \ref{tab:prijetiNaFAV} jsou uvedeny, jak kvalitativní, tak kvantitativní trénovací vzorky.}
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		{ID} & {Jméno} & {Rozhodnutí} & {Kraj} & {Pohlaví} & {Dobrý v} & {Dobrý ve}\\
+		{} & {} & {} & {} & {} & {matematice} & {sportu}\\
+		\hline
+		\hline		
+		{1} & {Andrea} & {Přijat} & {Západočeský} & {Ž} & {Ano} & {Ne}\\		
+		{2} & {Pepa} & {Přijat} & {Severočeský} & {M} & {Ano} & {Ne}\\
+		{3} & {Lukáš} & {Odmítnut} & {Severomoravský} & {M} & {Ne} & {Ne}\\
+		{4} & {Petr} & {Odmítnut} & {Středočeský} & {M} & {Ne} & {Ano}\\
+		{5} & {Lucie} & {Odmítnut} & {Západočeský} & {Ž} & {Ano} & {Ano}\\
+		{6} & {Ota} & {Přijat} & {Středočeský} & {M} & {Ne} & {Ano}\\
+		{7} & {Žofie} & {Odmítnut} & {Východočeský} & {Ž} & {Ne} & {Ne}\\
+		{8} & {Jaroslav} & {Odmítnut} & {Západočeský} & {M} & {Ne} & {Ano}\\
+		{9} & {Jan} & {Odmítnut} & {Západočeský} & {M} & {Ne} & {Ano}\\
+		{10} & {Marek} & {Přijat} & {Jihočeský} & {M} & {Ano} & {Ne}\\
+		\hline
+	\end{tabular}
+	\caption{Imaginární výsledky přijmutí na FAV.}
+	\label{tab:prijetiNaFAV}
+\end{table}
+
+\par{Je jednoduché vymyslet klasifikátor, který bude správně klasifikovat trénovací data lépe než náhodně (úspěšnost klasifikace, při problému klasifikace do dvou tříd, musí být ostře větší než $50\%$). Slabý klasifikátor by bylo možné sestrojit z podmínky, pokud je uchazeč dobrý v~matematice tak predikuj \textsf{Přijat}. Na druhou stranu je velmi složité najít jediný silný klasifikátor, který velmi přesně predikuje výslednou klasifikaci.}
+
+
+\subsubsection*{Co je slabý klasifikátor}
+\par{Pro každé rozdělení pravděpodobnosti dané polynomiálním počtem vzorků a polynomiálním časem může být nalezen takový klasifikátor, který má obecně lepší chybu než při náhodné klasifikaci. Tedy, chyba 
+\begin{equation}
+	\varepsilon < 0.5,
+\end{equation}
+což lze také zapsat jako $\gamma > 0$ pro obecnou chybu ($0.5 - \gamma$).}
+
+\par{Předpokladem je, že lze zkonstruovat slabý klasifikátor, tak aby trvale klasifikoval do správné třídy s~lepší než $50\%$ pravděpodobností.}
+
+\par{Vzhledem k~tomuto předpokladu je možné využít mnoho slabých klasifikátorů pro sestavení jednoho silného klasifikátoru, který bude správně klasifikovat $99-100\%$ vstupních vzorků.}
+
+
+\subsubsection*{AdaBoost algoritmus}
+\par{Nyní bude představen diskrétní AdaBoost algoritmus a následně bude vysvětlen podrobněji.}
+
+\par{Nechť existuje trénovací sada dat $S = \{ \left( \bm{x}_1, y_1 \right), \left( \bm{x}_2, y_2 \right), \cdots , \left( \bm{x}_N, y_N \right) \}$, kde $y_i \in \{ -1, 1\}$ je výstupní klasifikace a~$\bm{x}_i \in \bm{X}$ je vstupní příznakový vektor reálného objektu.}
+
+\begin{algorithm}
+	\caption{Diskrétní AdaBoost algoritmus}
+	\label{alg:AdaBoost}
+	\begin{algorithmic}[1]
+		\State Vstup: $S = \{ \left( \bm{x}_1, y_1 \right), \left( \bm{x}_2, y_2 \right), \cdots , \left( \bm{x}_N, y_N \right) \}$. Počet iterací $T$.
+		\State Inicializace: $d_n^{\left( 1 \right)} = \frac{1}{N}$ pro všechny $n = 1,\cdots, N$.
+		\For{$t = 1, \cdots , T$}
+			\State Natrénuj klasifikátor vzhledem k vážené množině vzorků $\{S, \bm{d}^{\left( \bm{t} \right)}\}$ a získej hypotézu $h_t : \bm{x} \mapsto \{ -1, +1\}$, tj. $h_t = L \left( S, \bm{d}^{\left( \bm{t} \right)} \right)$.
+			\State Vypočti váženou chybu trénovací sady $\varepsilon_t$ pro hypotézu $h_t$: 
+				\begin{equation}
+					\varepsilon_t = \sum_{n = 1}^{N} d_n^{\left( t \right)} \bm{I} \left( y_n \neq h_t \left( x \right)_n \right).
+				\end{equation}
+			\State Nastav:
+				\begin{equation}
+					\alpha_t = \frac{1}{2} \log \frac{1 - \varepsilon_t}{\varepsilon_t}.
+				\end{equation}
+			\State Aktualizuj váhy:
+				\begin{equation}
+					d_n^{\left( t + 1 \right)} = \frac{d_n^{\left( t \right)} \cdot e^{- \alpha_t y_n h_t \left( x_n \right)}}{Z_t},
+				\end{equation}
+				kde $Z_t$ je normalizační konstanta taková, že platí $\sum_{n =1}^{N} d_n^{\left( t + 1 \right)}= 1$.
+			\If{$\varepsilon_t = 0$ \textbf{or} $\varepsilon_t \geq \frac{1}{2}$}
+				\State Ukonči a nastav: $T = t - 1$
+			\EndIf
+		\EndFor
+		\State Výstup: $f_T \left( x \right) = \sum_{t = 1}^{\top} \frac{\alpha_t}{\sum_{r = 1}^{T} \alpha_r} h_t \left( x \right)$.
+	\end{algorithmic}
+\end{algorithm}
+
+
+\subsubsection*{Vysvětlení diskrétního AdaBoost algoritmu}
+
+\par{AdaBoost je agresivní algoritmus, který vybere jeden slabý klasifikátor v každém kroku. Váhy $\bm{d}^{\left( \bm{t} \right)} = \left( d_1^{\left( t \right)}, \cdots , d_N^{\left( t \right)} \right) $ jsou přiřazeny k datům v kroku $t$ a slabý klasifikátor $h_t$ je založen na $\bm{d}^{\left( \bm{t} \right)}$. Tyto váhy jsou aktualizovány každou iteraci. Váhy se zvětšují pro vzorky, které byly špatně klasifikovány v předchozí iteraci.}
+
+\par{Váhy jsou inicializovány uniformě: $d_n^{\left( 1 \right)} = \frac{1}{N}$ pro obecnou verzi AdaBoost algoritmu. Pro odhad, pokud jsou nějaké vzorky klasifikovány dobře nebo špatně, slabý klasifikátor produkuje váženou empirickou chybu definovanou následovně
+\begin{equation}
+	\varepsilon_t = \sum_{n = 1}^{N} d_n^{\left( t \right)} \bm{I} \left( y_n \neq h_t \left( x \right)_n \right).
+\end{equation}}
+
+\par{Když algoritmus vybere nejlepší hypotézu $h_t$, tak její váhy $\alpha_t = \frac{1}{2} \log \frac{1 -\varepsilon_t}{\varepsilon_t}$ jsou vypočteny tak, aby minimalizovaly ztrátovou funkci. Jedna z možných ztrátových funkcí používaných v AdaBoost je 
+\begin{equation}
+	G^{AdaBoost} \left( \alpha \right) = \sum_{n = 1}^{N} e^{- y_n \left( \alpha h_t \left( x_n \right) + f_{n - 1} \left( x_n \right) \right)},
+\end{equation}
+kde
+\begin{equation}
+	f_{t - 1} \left( x \right) = \sum_{r = 1}^{t - 1} \alpha_r h_r \left( x_n \right).
+\end{equation}}
+
+\par{Iterační smyčka je zastavena pokud empirická chyba $\varepsilon_t = 0$ nebo $\varepsilon_t \geq \frac{1}{2}$. Pokud je $\varepsilon_t = 0$, tak je klasifikace optimální. Pokud $\varepsilon_t \geq \frac{1}{2}$, tak klasifikátor přestal respektovat podmínku slabých klasifikátorů a algoritmus AdaBoost nemůže fungovat.}
+
+\par{Všechny slabé hypotézy, které jsou vybrány do stavu $h_t$ jsou lineárně zkombinovány následovně
+\begin{equation}
+	f_T \left( x \right) = \sum_{t = 1}^{\top} \frac{\alpha_t}{\sum_{r = 1}^{\top} \alpha_r} h_t \left( x \right).
+\end{equation}}
+
+\par{Výsledný klasifikátor je založený na jednoduchém prahování, které rozhodne o tom, zda bude vzorek přijat nebo odmítnut.}
+
+
+\subsubsection*{Vliv slabých klasifikátorů}
+\par{V každé iteraci AdaBoost vytvoří slabé klasifikátory založené na vážených vzorcích. Nyní bude diskutována výkonnost těchto slabých klasifikátorů založených na opětovném vážení vzorků. Pro pozorování vlivu slabých klasifikátorů nejprve nutné definovat několik základních nástrojů.}
+
+\par{Základní klasifikátor: Nechť $\bm{d} = \left( d_1, \cdots , d_n \right)$ je váha (pravděpodobnost) vzorků $S$. Nechť $S_+$ je podmnožina vzorků, které jsou označeny kladně a podobně pro $S_-$. Dále $D_+ = \sum_{n:y_n = +1} d_n$ a podobně pro $D_-$. Základní klasifikátor $f_{BL}$ (index $BL$ značí \uv{Base Line}) je definován jako
+\begin{equation}
+	f_{BL} \left( x \right) = sign \left( D_+ - D_- \right), \quad \forall x.
+\end{equation}
+Tedy predikuje $+1$ pokud $D_+ \geq D_-$ jinak $-1$. Je okamžitě zřejmé, že pro všechny váhy $\bm{d}$ je chyba základního klasifikátoru nejvýše $\frac{1}{2}$.}
+
+\par{S touto definicí je možné lépe definovat slabý klasifikátor: Slabý klasifikátor vzorků $S$, pokud jsou dány váhy $\bm{d}$ vzorků $S$, je schopen dosáhnout vážené chyby klasifikace, která je striktně menší než $\frac{1}{2}$.}
+
+\par{Klíčová vlastnost Boosting algoritmu je splnění podmínky pro slabý klasifikátor, který je potřeba pro to, aby celkový algoritmus fungoval správně. Vážená empirická chyba každého slabého klasifikátoru musí být striktně menší než $\frac{1}{2} - \frac{1}{2} \gamma$, kde $\gamma$ je parametr určující odchylku od od základního klasifikátoru představeného dříve. Je uvažován slabý binární klasifikátor $h$, vzhledem k množině vzorků $S = \{ \left( x_n , y_n \right) \}_{n = 1}^{N}$, kde pro každou dvojici $\left( x_n, y_n\right)$ existuje nezáporná váha $d_n$. Pak je požadováno, aby 
+\begin{equation}
+	\varepsilon_t \left( h_t, \bm{d} \right) = \sum_{n = 1}^{N} d_n \bm{I} \left( y_n \neq h \left( x \right)_n \right) \leq \frac{1}{2} - \frac{1}{2} \gamma, \quad \left( \gamma > 0 \right).
+	\label{eq:AdaBoostEmpirickaChyba}
+\end{equation}}
+
+\par{Pro nějaké slabé klasifikátory nemusí existovat $\gamma > 0$, která respektuje předchozí podmínku aniž by porušila některé podmínky týkající se dat.}
+
+\par{Příklad možného nalezení pozitivní $\gamma$, která respektuje podmínku empirické chyby \ref{eq:AdaBoostEmpirickaChyba}. Předpokladem je mapování $f$ z binární krychle $\bm{X} = \{ +1 , -1\}^d$ do $\bm{Y} = \{ + 1 , -1\}$ a~dále pozitivní labely $y_n$, které jsou dány $y_n = f \left( x_n \right)$. Funkce $f$ je aproximována binární hypotézou $h_t$ patřící do $\bm{H}$. Nechť $H$ je třída binárních hypotéz a nechť $D$ je rozložení nad $\bm{X}$. Korelace mezi $f$ a $H$ s respektováním $D$ je dána $C_{H, D}\left( f \right) = \sup_{h \in H} \bm{E}_D \{ f\left( x \right) h \left( x \right) \}$. Rozložení bez korelace mezi $f$ a $H$ je dáno $C_H \left( f \right) = \inf_D C_{H,D} \left( f \right)$. To může být dokázáno, pokud $T > 2 \cdot \log \left( 2 \right) d C_H \left( f \right)^{-2}$, pak $f$ může být reprezentována přesně jako
+\begin{equation}
+	f \left( x \right) = sign \left( \sum_{t = 1}^{T} h_t \left( x \right) \right).
+\end{equation}}
+
+\par{Jinými slovy, pokud je $H$ silně korelována s cílovou funkcí $f$, pak $f$ může být přesně reprezentována jako kombinace malých čísel funkce z $H$. Proto poté pro dostatečně velký počet iterací může být očekáváno, že se empirická chyba bude blížit nule.}
+
+\par{Tento příklad ukázal binární klasifikaci s dvěma lineárně oddělitelnýma třídami. Ve více obecném případě můžou být třídy silně se překrývající, proto je nutné využít pokročilejší nástroje jako vytvořit pravidla týkající se slabých klasifikátorů.}
+\pagebreak
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{| p{7.5cm} | p{7.5cm} |}
+		\hline
+		{\textbf{Výhody AdaBoost algoritmu}} & {\textbf{Nevýhody AdaBoost algoritmu}}\\
+		\hline
+		\hline
+		{Rychlost. ~} & {Slabé klasifikátory, které jsou současně komplexní vedou k~přetrénování.}\\
+		\hline
+		{Prokazatelná efektivita vzhledem k~předpokladu slabých klasifikátorů.} & {Pokud jsou slabé klasifikátory příliš slabé může vznikat \uv{low margin} problém i~problém přetrénování.}\\
+		\hline
+		{Není potřeba volit žádný parametr (vyjma počtu iterací $T$).} & {Z empirických důkazů bylo ukázáno, že AdaBoost algoritmus je náchylný na uniformní šum.}\\
+		\hline
+		{Není potřebná žádná apriorní informace.} & {}\\
+		\hline
+		{Jednoduchá implementace.} & {}\\
+		\hline
+		{Univerzálnost.} & {}\\
+		\hline
+	\end{tabular}
+	\label{tab:AdaBoostVyhodyNevyhody}
+\end{table}
+
+
+
+
+\newpage
+%------KASKADNI-ADABOOST----------------------------------------------------------------------
+%-LUKAS-BURES-
+\section{Kaskádní AdaBoost}
+\label{sec:AdaBoostKaskadniAdaBoost}
+
+\par{Je možné vybrat malé množství dobře odlišitelných příznaků a zkombinovat je do jednoho silného klasifikátoru, nicméně je potřeba představit několik hlavních myšlenek pro snížení výpočetního času. Rozšíření spočívá v tvorbě kaskády klasifikátorů, která navíc může dosahovat lepší klasifikační přesnosti. Tedy snaží se minimalizovat počet false negativ klasifikací namísto klasického trénování chyby, což představuje hlavní myšlenku, která bude dále sloužit pro vytvoření kaskády klasifikátorů.}
+
+\par{Princip bude vysvětlen na praktickém příkladě hledání obličejů v obrázku.}
+
+\subsubsection*{Proč je to tak efektivní?}
+\par{Princip spočívá v rychlém odmítnutí většiny negativních okének a ponechání co nejvíce pozitivních. Následně se využije více citlivějších (menších) podokének s více komplexnějšími klasifikátory. V první fázi kaskády, která obsahuje pouze několik málo příznaků se většinou dosahuje velmi vysokého detekčního poměru (kolem $100\%$), avšak na úkor false positive (přibližně $40\%$). Je zřejmé, že pro výslednou klasifikaci je takový počet chyb nepřijatelný. Proto se v případě problému detekce obličejů kombinuje mnoho za sebou navazujících klasifikátorů, což vede k více a více diskriminativní klasifikaci jejímž výsledkem je detekce obličejů ve scéně.}
+
+\par{Tuto kaskádní strukturu lze přirovnat k~degenerovanému rozhodovacímu stromu. Pokud je podokénko klasifikováno jako pozitivní v~jednom stupni, tak postupuje dále v~kas\-ká\-dě a~je ověřováno v~každém dalším stupni znovu. Takto se pokračuje dále dokud není podokénko označeno negativně, nebo je po ověření poslední vrstvou prohlášeno za pozitivní (obsahující tvář). Na Obr.~\ref{fig:KaskadniAdaBoost} je tento proces naznačen.
+\begin{figure}[!ht]
+	\centering
+	%trim option's parameter order: left bottom right top
+	%\fbox{
+	\includegraphics[width = 0.4\textwidth, trim = 10cm 36cm 10cm 3cm]{./Img/Prednaska08/KaskadniAdaBoost/KaskadaAdaBoost.pdf}
+	\caption{Schématický popis kaskádní detekce. Série klasifikátorů je aplikována na každé podokénko. Počáteční klasifikátor eliminuje velký počet negativních vzorků s malým processingem. Další vrstvy eliminují další negativní vzorky, tudíž je potřeba dalšího výpočetního času. Po několika stupních processingu je počet podokének radikálně redukován. Vzorky, které jsou klasifikovány jako pozitivní v posledním stupni jsou definitivně označeny jako pozitivní.}
+	\label{fig:KaskadniAdaBoost}
+\end{figure}}
+
+
+
+\subsubsection*{Tvorba více konzistentních klasifikátorů}
+\par{Byla definována kaskáda jako množina na sebe navazujících klasifikátorů. První klasifikátor je velmi jednoduchý, ale postupem v kaskádě nabývá na složitosti.}
+
+\par{V poslední vrstvě má klasifikátor více příznaků než v první. AdaBoost algoritmus generuje chybu trénování, která klesá teoreticky exponenciálně v závislosti na počtu iterací. Pokud je více příznaků (AdaBoost algoritmus běží více iterací) výsledný klasifikátor je více diskriminativní mezi pozitivními a negativními vzorky. Jinými slovy lze říci, že je klasifikátor \uv{silnější} než v případě kdy má k dispozici méně příznaků (běží menší počet iterací).}
+
+\par{Další důležitou věcí kaskádního AdaBoost algoritmu je volba trénovací množiny. V~kaž\-dé vrstvě (učícím se kroku, iteraci) je $i$-tý klasifikátor testován na testovací množině negativních vzorků. Všechny špatně klasifikované negativní vzorky jsou předány dále do $\left( i + 1 \right)$-tého klasifikátoru, který se tedy musí zaměřit na složitější vzorky. Snaha spočívá v donucení následujícího klasifikátoru, aby měl poměr nalezených false positive vzorků menší než předchozí klasifikátor.}
+
+
+
+\subsubsection*{Trénování kaskádního AdaBoost algoritmu}
+\par{Nechť $F$ je míra detekovaných false positive vzorků kaskádního klasifikátoru, $K$ je počet klasifikátorů a $f_i$ je míra false positive vzorků $i$-tého klasifikátoru. Pro trénovanou kaskádu klasifikátorů je $F$ dáno jako
+\begin{equation}
+	F = \prod_{i = 1}^K f_i,
+\end{equation}
+následně míra detekce může být vypočtena jako
+\begin{equation}
+	D = \prod_{i = 1}^K d_i,
+\end{equation}
+kde $d_i$ je míra detekce $i$-tého klasifikátoru na vzorcích procházející daným klasifikátorem.}
+
+\par{Počet příznaků, které musí byt hledány v reálném obrázku (například při hledání obličeje) nezbytný pravděpodobnostní proces. Většina podokének projdou kaskádou jedním nebo několika klasifikátory než jsou vyhodnoceny jako negativní vzorek a jen velmi malá část vzorků je na konci označena jako pozitivní vzorek. Chování tohoto procesu je závislé na pravděpodobnostním rozdělení obrázků v trénovací sadě. Hlavním nástrojem pro měření výkonu klasifikátorů je míra pozitivních vzorků na konci kaskády. Vzhledem k~počtu vrstev v~kaskádě $K$ je míra pozitivních vzorků v $i$-té vrstvě (klasifikátoru) označena $p_i$. Nechť $n_i$ je počet příznaků v $i$-té vrstvě. Očekávaný počet příznaků, který je ověřován, je dán 
+\begin{equation}
+	N = n_0 + \sum_{i = 1}^{K} \left( n_i \prod_{j < i} p_i \right).
+\end{equation}
+Jen několik málo příkladů je klasifikováno jako hledané objekty (obličeje), což je také důvod, proč je míra pozitivních vzorků přibližně rovna míře false positive vzorků.}
+
+
+\newpage
+
+\par{Struktura kaskádního AdaBoost algoritmu vyžaduje znalost tří parametrů
+\begin{enumerate}
+	\item Celkový počet klasifikátorů $K$.
+	\item Počet příznaků $n_i$ v $i$-té vrstvě.
+	\item Práh $\theta_i$ v $i$-té vrstvě.
+\end{enumerate}
+Nalezení těchto optimálních parametrů je obtížné, za předpokladu, že je nutné minimalizovat výpočetní čas celé klasifikace. Princip spočívá ve zvýšení počtu příznaků a počtu vrstev dokud není dosažená stanovená úspěšnost klasifikace.}
+
+\par{Vzhledem k minimální přijatelné míře $f_i$ (false positive míra pro $i$-tou vrstvu) a $d_i$ (míra detekce pro $i$-tou vrstvu) je míra detekce $d_i$ dosažena za pomoci snižování prahu $\theta_i$, což přímo ovlivňuje $f_i$. Počet příznaků $n_i$ v $i$-té vrstvě je zvyšován dokud není dosaženo $f_i$. Obecný kaskádový AdaBoost algoritmus je naznačen v algoritmu \ref{alg:KaskadniAdaBoostUceni} a bude diskutován níže.}
+
+\par{Jeden z hlavních faktorů efektivity kaskádového algoritmu je správa trénovací množiny během učení. Většinou je trénovací množina použita pro první vrstvu následně každou iteraci je aktuální klasifikátor ověřován na validační množině. Je velmi nevhodné ověřovat úspěšnost klasifikace na trénovací množině, jelikož bude pro tuto množinu bude úspěšnost vyšší. V každé další vrstvě je trénovací množina negativních vzorků znovu inicializována. Když je dosaženo $F_i$ a $D_i$ pro $i$-tou vrstvu, tak je aktuální model testován na velké množině negativních vzorků, které jsou zvoleny náhodně. Mnoho false positive vzorků je vloženo do trénovací sady negativních vzorků v $i-1$-té vrstvě. Nová trénovací množina negativních vzorků je vytvořena ze vzorků, které byly špatně detekovány v $i$-té vrstvě, tedy následující $i+1$-tá vrstva je trénována na vzorcích, které jsou pro předešlo vrstvu \uv{složité}. Tedy, čím dále v kaskádě se klasifikátor nachází, tím lépe dokáže klasifikovat mezi pozitivními a negativními vzorky (podokýnky obsahujícími lidské tváře).}
+
+\newpage
+
+\begin{algorithm}[!ht]
+	\caption{Učení kaskádního AdaBoost algoritmu}
+	\label{alg:KaskadniAdaBoostUceni}
+	\begin{algorithmic}[1]
+		\State Vstup: $f$ maximální přijatelná míra false positive pro každou vrstvu, $d$ minimální přijatelná míra detekce pro každou vrstvu, $F_{target}$ počet false positive na konci procesu, $P$ množina pozitivních vzorků,	$N$ množina negativních vzorků.
+		\State Inicializace: $F_0 = D_0 = 1$, $i = 0$ číslo aktuální vrstvy.
+		\While{$F_i > F_{target}$}
+			\State $i = i + 1$
+			\State $n_i = 0$
+			\State $F_i = F_{i - 1}$
+
+			\While{$F_i > f \cdot F_{i - 1}$}
+				\State $n_i = n_i + 1$
+				\State Natrénuj AdaBoost klasifikátor (algoritmus \ref{alg:AdaBoost}) s $P$ a $N$ jako trénovací množinou.
+				\State Vypočti $F_i$ a $D_i$ pro aktuální klasifikátor na základě validační množiny.
+				\State Snižuj práh klasifikátoru dokud není poměr $i$-tého klasifikátoru alespoň 
+					\begin{equation}
+						d \cdot \frac{D_{i - 1}}{D_i} \geq D_{i - 1} \cdot d
+					\end{equation}
+			\EndWhile			
+			
+			\State Smaž negativní vzorky trénovací množiny.
+			\If{$F_i > F_{target}$}
+				\State Ověř aktuální kaskádu klasifikátorů na množině negativních vzorků a vlož nějaké špatně detekované vzorky do množiny $N$.
+			\EndIf
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-------SVM--------------------------------------------------------------------------------------
+%-PETR-ZIMMERMANN-
+\section{SVM}
+\label{sec:07_SVM}
+\par{Tato metoda hledá v prostoru nejširší možný pruh, který rozděluje množinu vektorů
+do~dvou nadrovin. Nadrovina je následně popsána pomocí vektorů ležících nejblíže její hranice, kterých je obvykle malý počet a nazývají se support vectors. Tyto vektory daly za vznik názvu celé metody SVM (z ang. \textit{Support Vectors Machine}). Princip klasifikační metody SVM bude nejprve vysvětlen na případu jednoznačně oddělitelné množiny (lineárně separovatelná množina) vektorů a následně se text zaměří na mnohem obecnější případ množiny, kterou nelze jednoznačně rozdělit (nelineárně separovatelná množina) do~dvou tříd.}
+
+
+\subsubsection*{Lineárně separovatelná množina}
+\par{Nechť $\bm{x}_i,i=1,2,\ldots,N$, jsou vektory tvořící trénovací množinu $X$. Vektory náleží do jed\-né ze dvou tříd $\omega_1,\omega_2$ a jsou lineárně separovatelné. To znamená, že existuje parametr $\omega$, pro který platí
+\begin{eqnarray}
+	\nonumber
+	&\bm{\omega}^{\top} \bm{x} > 0,&\textrm{pro}~\forall \bm{x} \in \omega_1,\\
+	\nonumber
+	&\bm{\omega}^{\top} \bm{x} < 0,&\textrm{pro}~\forall \bm{x} \in \omega_2.
+\end{eqnarray}
+Jinými slovy, úkolem klasifikační metody je nalézt nadrovinu $g\left( \bm{x} \right)$
+\begin{equation}
+	g\left( \bm{x} \right) = \bm{\omega}^{\top} \bm{x} + \omega_0 = 0,
+	\label{eq:SVMhyperplane}
+\end{equation}
+která rozděluje vektory $\bm{x}_i$ do příslušných tříd. Koeficient $\omega_0$ z předpisu \ref{eq:SVMhyperplane} je nulový pouze v případě že nadrovina prochází počátkem souřadnicového systému. Jak je patrné z Obr. \ref{fig:SVM01}, rozdělujících nadrovin je obvykle celá řada. Úkolem klasifikační metody SVM je zvolit takovou, která minimalizuje chybu klasifikace tím, že má maximální možný odstup od obou tříd.
+\begin{figure}[!ht]
+	\centering
+	%trim option's parameter order: left bottom right top
+	%\fbox{
+	\includegraphics[width = 0.5\textwidth, trim = 3cm 7.5cm 2cm 9cm]{./Img/Prednaska08/SVM/SVM01.pdf}
+	\caption{Příklad lineárně separovatelných tříd třemi možnými nadrovinami.}
+	\label{fig:SVM01}
+\end{figure}}
+
+\par{Obecně je nadrovina definována svým směrem (parametr $\bm{\omega}$) a polohou v prostoru (koeficient $\omega_0$). SVM vedle těchto dvou faktorů zohledňuje i odstup nadroviny od klasifikačních tříd. Jelikož je nežádoucí, aby během určování nadroviny byla některé z tříd zvýhodňována, SVM hledá takový směr $\bm{\omega}$, pro který má nadrovina stejnou vzdálenost k~nejbližším bodům z obou tříd $\omega_1$ a $\omega_2$ (viz Obr. \ref{fig:SVM02}).
+\begin{figure}[!ht]
+	\centering
+	%trim option's parameter order: left bottom right top
+	%\fbox{
+	\includegraphics[width = 0.5\textwidth, trim = 3cm 7.5cm 2cm 9cm]{./Img/Prednaska08/SVM/SVM02.pdf}
+	\caption{Optimální nadrovina dělící vektory do dvou tříd; kroužkem jsou znázorněny support vectors.}
+	\label{fig:SVM02}
+\end{figure}}
+
+\par{Vzdálenost mezi bodem a nadrovinou lze vyjádřit pomocí vztahu
+\begin{equation}
+	{z = \frac{\mid g \left( \bm{x} \right) \mid}{\parallel \bm{\omega} \parallel},}
+\end{equation}
+kde $\parallel \bm{\omega} \parallel = \sqrt{\bm{\omega}^2}$. Nejblíže položené body (na obr. znázorněny kroužkem) mají vzdálenost od nadroviny rovnu $1$, pokud se nacházejí ve třídě $\omega_1$ a $-1$, náleží-li do třídy $\omega_2$. To vede k závěru, že SVM hledá nadrovinu:
+\begin{itemize}
+\item mající odstup $\frac{1}{\parallel \bm{\omega} \parallel} + \frac{1}{\parallel \bm{\omega} \parallel} = \frac{2}{\parallel \bm{\omega} \parallel}$.
+\item splňující podmínky
+\begin{eqnarray}
+	\nonumber
+	&\bm{\omega}^{\top} \bm{x} + \omega_0 \geq +1,&\textrm{pro}~\forall \bm{x} \in \omega_1,\\
+	\nonumber
+	&\bm{\omega}^{\top} \bm{x} + \omega_0 \leq -1,&\textrm{pro}~\forall \bm{x} \in \omega_2.
+\end{eqnarray}
+\end{itemize}
+Dále je definován tzv. indikátor třídy $y_i$ ($+1$ pro $\omega_1$ a $-1$ pro $\omega_2$) a cíl metody SVM může být shrnut následovně:
+\begin{equation}
+	\min J \left( \bm{\omega}, \omega_0 \right) = \frac{1}{2} \parallel \bm{\omega} \parallel^2,
+	\label{eq:SVMcostF01}
+\end{equation}
+za podmínky
+\begin{equation}
+	y_i \left( \bm{\omega}^{\top} \bm{x}_i + \omega_0 \right) \geq 1,\quad i=1,2,\ldots,N.
+	\label{eq:SVMcon01}
+\end{equation}
+Vektory, pro které platí $y_i \left( \bm{\omega}^{\top} \bm{x}_i + \omega_0 \right) = 1$, jsou označovány jako \textit{support vectors} (viz Obr. \ref{fig:SVM02}).}
+
+
+\subsubsection*{Matematické řešení}
+\par{Z výše uvedených faktů vyplývá, že konstrukce nadroviny, která maximalizuje odstup
+od obou klasifikačních tříd, je kvadratickou optimalizační úlohou a její řešení vede na Lagrangeovu funkci, kde $\lambda$ značí Lagrangeův multiplikátor
+\begin{equation}
+	{\mathcal{L} \left( \bm{\omega},\omega_0,\bm{\lambda} \right)=\frac{1}{2} \bm{\omega}^{\top} \bm{\omega} - \sum_{i=1}^N \lambda_i \left[y_i \left( \bm{\omega}^{\top} \bm{x}_i + \omega_0 \right) - 1 \right],}\label{eq:SVMLagrangian01}
+\end{equation}
+s podmínkami
+\begin{eqnarray}
+	\frac{\partial}{\partial \bm{\omega}} \mathcal{L} \left( \bm{\omega},\omega_0,\bm{\lambda} \right)&=&0,\\
+	\label{eq:SVMPartial01}
+	\frac{\partial}{\partial \omega_0} \mathcal{L} \left( \bm{\omega},\omega_0,\bm{\lambda} \right)&=&0,\\
+	\label{eq:SVMPartial02}
+	\lambda_i &\geq &0, \quad i=1,2,\ldots,N,\\
+	\left[y_i \left( \bm{\omega}^{\top} \bm{x}_i + \omega_0 \right) - 1 \right] &= &0, \quad i=1,2,\ldots,N.
+	\label{eq:SVMomegaCon01}
+\end{eqnarray}
+Kombinací rovnice \ref{eq:SVMLagrangian01} s \ref{eq:SVMPartial01} a \ref{eq:SVMPartial02} je získáno řešení
+\begin{eqnarray}
+	&\bm{\omega} &= \sum_{i=1}^N \lambda_i y_i \bm{x}_i,\\
+	&0 &= \sum_{i=1}^N \lambda_i y_i.
+\end{eqnarray}}
+
+\par{Takto zkonstruovaná nadrovina se označuje za nadrovinu optimální. Optimalizační úloha definovaná předpisy \ref{eq:SVMcostF01} a \ref{eq:SVMcon01} patří mezi úlohy konvexního programování a jako takovou ji lze řešit pomocí Lagrangeovy duality
+\begin{equation}
+	\max \mathcal{L} \left( \bm{\omega},\omega_0,\bm{\lambda} \right),
+	\label{eq:SVML01}
+\end{equation}
+za podmínek
+\begin{equation}
+	\bm{\omega} = \sum_{i=1}^N \lambda_i y_i \bm{x}_i, \quad \sum_{i=1}^N \lambda_i y_i = 0, \quad  \lambda_i \geq 0, \quad i=1,2,\ldots,N.
+	\label{eq:SVMomega01}
+\end{equation}
+Dosazením rovnic \ref{eq:SVMomega01} do \ref{eq:SVML01} je získána optimalizační úloha ekvivalentní k úloze popsané předpisy \ref{eq:SVMcostF01} a \ref{eq:SVMcon01}
+\begin{equation}
+	\max_{\lambda} \left( \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i,j} \lambda_i \lambda_j y_i y_j \bm{x}_i^{\top} \bm{x}_j \right),
+	\label{eq:SVMmax01}
+\end{equation}
+s podmínkou
+\begin{equation}
+	\sum_{i=1}^N \lambda_i y_i = 0, \quad \lambda_i \geq 0, \quad i=1,2,\ldots,N.
+\end{equation}
+Maximalizováním výrazu \ref{eq:SVMmax01} jsou vypočteny optimální Lagrangeovy multiplikátory a~optimální nadrovina je získána jejich dosazením do rovnice \ref{eq:SVMomega01}. Koeficient $\omega_0$ je vypočten z~podmínky \ref{eq:SVMomegaCon01}.}
+
+
+\subsubsection*{Nelineárně separovatelná množina}
+\par{Jestliže prvky trénovací množiny $X$ nelze lineárně oddělit, nemůžu být výše zmíněný postup konstrukce dělící nadroviny použit. Případ neoddělitelné množiny je zobrazen na obr. Jakýkoli pokus o vykreslení pásu rozdělujícího vektory do dvou tříd skončí neúspěchem. Vždy se totiž uvnitř takového pásu budou vyskytovat vektory trénovací množiny.
+\begin{figure}[!ht]
+	\centering
+	%trim option's parameter order: left bottom right top
+	%\fbox{
+	\includegraphics[width = 0.5\textwidth, trim = 3cm 7.5cm 2cm 9cm]{./Img/Prednaska08/SVM/SVM03.pdf}
+	\caption{Příklad lineárně neseparovatelné množiny.}
+	\label{fig:SVM03}
+\end{figure}}
+
+\par{Šířka dělícího pásu je definovaná vzdáleností dvou paralelních nadrovin s předpisem
+\begin{equation}
+	{\bm{\omega}^{\top} \bm{x} + \omega_0 \pm 1}
+\end{equation}
+vektory $\bm{x}_i$, $\bm{x}_i \in X$, nyní náleží do jedné ze tří kategorií:
+\begin{itemize}
+\item vektory ležící mimo dělící pás jsou považovány za správně klasifikované a splňují tak podmínku \ref{eq:SVMcon01}.
+\item vektory správně klasifikované, které leží uvnitř pásu, splňují nerovnost (na  Obr. \ref{fig:SVM03} znázorněny čtvercem)
+\begin{displaymath}
+	{0 \leq y_i \left( \bm{\omega}^{\top} \bm{x} + \omega_0 \right) < 1 .}
+\end{displaymath}
+\item vektory chybně klasifikované, které leží uvnitř pásu, splňují nerovnost (na Obr. \ref{fig:SVM03} znázorněny kroužkem)
+\begin{displaymath}
+	{y_i \left( \bm{\omega}^{\top} \bm{x} + \omega_0 \right) < 0.}
+\end{displaymath}
+\end{itemize}
+Všechny tři kategorie mohou být popsány podmínkou
+\begin{equation}
+	{y_i \left( \bm{\omega}^{\top} \bm{x} + \omega_0 \right) \geq 1- \xi_i,}
+\end{equation}
+kde $\xi_i$ představuje tzv. klouzavou proměnou. Ta dosahuje hodnoty $\xi_i=0$ pro první kategorii, $0 < \xi_i \leq 1$ pro druhou kategorii a $\xi_i>1$ pro třetí kategorii.}
+
+\par{Úkolem klasifikační metody SVM je opět konstrukce nadroviny, s co největším odstupem od obou tříd, a zároveň minimalizovat počet bodů, pro které je $\xi_i>1$. Jde tedy o~úkol minimalizace ztrátové funkce
+\begin{equation}
+	{J \left( \bm{\omega}, \omega_0, \bm{\xi} \right) = \frac{1}{2} \parallel \bm{\omega} \parallel^2 + C\sum_{i=1}^N I\left( \xi_i \right),}\label{eq:SVMnonlcostF}
+\end{equation}
+kde $C$ je pozitivní konstanta, $\bm{\xi}$ je vektor parametrů $\xi_i$ a
+\begin{equation}
+	I\left( \xi_i \right) = \left\{
+	\begin{array}{ll}
+		{1,\quad\xi_i>0},\\
+		{0,\quad\xi_i=0}.
+	\end{array}
+	\right.
+\end{equation}}
+
+
+\subsubsection*{Matematické řešení}
+\par{Optimalizace funkce \ref{eq:SVMnonlcostF} je matematicky velice složitá, jelikož obsahuje nespojitou funkci $I\left( \bullet \right)$. Z tohoto důvodu se SVM zaměřuje na optimalizaci tzv. blízké funkce a jejím cílem se tak stává
+\begin{equation}
+	\min J \left( \bm{\omega}, \omega_0, \bm{\xi} \right) = \frac{1}{2} \parallel \bm{\omega} \parallel^2 + C\sum_{i=1}^N \xi_i,
+\end{equation}
+za podmínek
+\begin{equation}
+	y_i \left( \bm{\omega}^{\top} \bm{x} + \omega_0 \right) \geq 1 - \xi_i, \quad \xi_i \geq 0,\quad i=1,2,\ldots,N.
+\end{equation}
+Řešení opět vede na Lagrangeovu funkci
+\begin{equation}
+	{\mathcal{L} \left( \bm{\omega},\omega_0,\bm{\lambda},\bm{\xi},\bm{\mu} \right)=\frac{1}{2} \parallel \bm{\omega} \parallel^2 + C \sum_{i=1}^N \xi_i - \sum_{i=1}^N \mu_i \xi_i - \sum_{i=1}^N \lambda_i \left[y_i \left( \bm{\omega}^{\top} \bm{x}_i + \omega_0 \right) - 1 + \xi_i\right],}
+\end{equation}
+za podmínek $\frac{\partial\mathcal{L}}{\partial\bm{\omega}}$, $\frac{\partial\mathcal{L}}{\partial\omega_0}$ a $\frac{\partial\mathcal{L}}{\partial\xi_i}$ nebo
+\begin{equation}
+	\bm{\omega} = \sum_{i=1}^N \lambda_i y_i \bm{x}_i, \quad \sum_{i=1}^N \lambda_i y_i = 0, \quad C-\mu_i-\lambda_i=0
+\end{equation}
+společně s podmínkami
+\begin{equation}
+	\lambda_i \left[y_i \left( \bm{\omega}^{\top} \bm{x}_i + \omega_0 \right) - 1 + \xi_i\right]=0, \quad \mu_i\xi_i=0, \quad \mu_i \geq 0, \quad \lambda_i \geq 0, \quad i=1,2,\ldots,N.
+\end{equation}
+Použitím Lagrangeovy duality je úkolem SVM
+\begin{equation}
+	\max \mathcal{L} \left( \bm{\omega},\omega_0,\bm{\lambda},\bm{\xi},\bm{\mu} \right),
+	\label{eq:SVMnonlL}
+\end{equation}
+za podmínek
+\begin{equation}
+	\bm{\omega} = \sum_{i=1}^N \lambda_i y_i \bm{x}_i, \quad \sum_{i=1}^N \lambda_i y_i = 0, \quad C - \mu_i-\lambda_i=0, \quad \mu_i \geq 0, \quad \lambda_i \geq 0, \quad i=1,2,\ldots,N.
+	\label{eq:SVMnonlcon}
+\end{equation}
+Po dosazení výrazů \ref{eq:SVMnonlcon} do \ref{eq:SVMnonlL} je získána ekvivalentní optimalizační úloha
+\begin{equation}
+	\max_{\lambda} \left( \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i,j} \lambda_i \lambda_j y_i y_j \bm{x}_i^{\top} \bm{x}_j \right),
+\end{equation}
+s podmínkou
+\begin{equation}
+	\sum_{i=1}^N \lambda_i y_i = 0, \quad 0 \leq \lambda_i \leq C, \quad i=1,2,\ldots,N,
+\end{equation}
+jejímž řešením jsou vypočteny Lagrangeovy multiplikátory. Ty vedou k získání nadroviny, která má maximální možný odstup od obou tříd a zároveň minimalizuje počet vektorů,
+pro něž je $\xi_i>0$.}
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-------SVM-KERNEL-TRICK--------------------------------------------------------------------------
+%-PETR-ZIMMERMANN-
+\section{SVM - Kernel trick}
+\label{sec:07_SVM_Kernel_Trick}
+\par{Doposud bylo cílem metody SVM lineárně rozdělit trénovací množinu $X$ do dvou tříd $\omega_1$ a $\omega_2$. Mnohdy je ale takový postup řešení neefektivní a vhodnější by bylo v prostoru trénovací množiny zkonstruovat hranici s nelineárním popisem. Za tímto účelem se využívá tzv. \textit{Kernel Trick}, kdy dochází k namapování vstupní množiny $X$ do prostoru vyšší dimenze, v kterém je ji možné lineárně rozdělit (viz Obr. \ref{fig:KT01}).
+\begin{figure}[!ht]
+	\centering
+	%trim option's parameter order: left bottom right top
+	%\fbox{
+	\includegraphics[width = 0.6\textwidth, trim = 3cm 7.5cm 2cm 9cm]{./Img/Prednaska08/SVM/KT01.pdf}
+	\caption{Příklad namapování nelineárně separovatelné množiny z prostoru $\mathcal{R}^2$ do prostoru $\mathcal{R}^3$, kde lze množinu lineárně rozdělit.}
+	\label{fig:KT01}
+\end{figure}}
+
+\par{V rovnici \ref{eq:SVMmax01} je jádro (ang. \textit{kernel}) popsáno vztahem $\bm{x}_i^{\top} \bm{x}_j$ a představuje míru podobnosti mezi $i$-tým a $j$-tým vektorem. Tato míra je označována jako skalární součin (ang. \textit{inner product}). Předpis jádra metody SVM tedy vypadá následovně:
+\begin{equation}
+	{K\left( \bm{x}_i, \bm{x}_j  \right)= \bm{x}_i^{\top} \bm{x}_j}.
+\end{equation} 
+Po dosazení předpisu jádra zpět do rovnice \ref{eq:SVMmax01} se cílem metody SVM stává:
+
+\begin{equation}
+	{\max_{\lambda} \left( \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i,j} \lambda_i \lambda_j y_i y_j K\left( \bm{x}_i, \bm{x}_j  \right) \right),}
+\end{equation}
+s podmínkou
+\begin{equation}
+	\sum_{i=1}^N \lambda_i y_i = 0, \quad \lambda_i \geq 0, \quad i=1,2,\ldots,N.
+\end{equation}}
+
+\par{Vhodnou volbou jádra metody SVM lze docílit namapování trénovacích vektorů do prostoru, ve kterém jsou následně aplikovány principy hledání klasifikační nadroviny, jež má maximální možný odstup od nově namapovaných tříd $\omega_1$ a $\omega_2$. Jinými slovy, pomocí \textit{Kernel Trick} je možné metodu SVM, která je metodou lineární, transformovat v metodu nelineární (nelineární klasifikátor). Nejčastěji využívaná nelineární jádra jsou uvedena v~tabulce~\ref{tab:SVMkernels}.
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		{Typ jádra} & {Předpis} & {Poznámka}\\
+		\hline
+		\hline		
+		{Polynomiální jádro} & {$K\left( \bm{x}_i, \bm{x}_j  \right)=\left( \bm{x}_i \bm{x}_j+\theta \right) ^d$} & {Parametr $d$ a práh $\theta$}\\	
+		{} & {} & {je volen uživatelem.}\\	
+		\hline
+		{Sigmoidové jádro} & {$K\left( \bm{x}_i, \bm{x}_j  \right)= tahh \left( \eta \bm{x}_i \bm{x}_j + \theta \right)$} & {Parametr $\eta$ a práh $\theta$}\\
+		{} & {} & {je volen uživatelem.}\\
+		\hline
+		{Gaussovo jádro} & {$K\left( \bm{x}_i, \bm{x}_j  \right)=exp \left( -\frac{1}{2\sigma^2}\parallel \bm{x}_i - \bm{x}_j \parallel ^2 \right)$} & {Parametr $\sigma$ je}\\
+		{\textit{Radial Basis Function}} & {} & {volen uživatelem.}\\
+		{(RBF)} & {} & {}\\
+		\hline
+	\end{tabular}
+	\caption{Nejčastěji využívaná nelineární jádra pro metodu SVM.}
+	\label{tab:SVMkernels}
+\end{table}}
+
+\par{Volbu jádra pro \textit{Kernel Trick} nelze zobecnit. Obvykle se jádra iterativně testují a~vybráno je to, které vykáže nejmenší chybu klasifikace. Často se ovšem doporučuje toto testování odstartovat s RBF jádrem.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Zdroje}
+\label{sec:07_References}
+
+
+\par{$\left[1\right]$	G. Rätsch, T. Onoda K-R. Müller. \uv{Soft Margins for AdaBoost}, \textit{Machine Learning}, 1-35, August 1998 \newline
+$\left[2\right]$	P. Viola and M. Jones, \uv{Fast and Robust Classification using Asymmetric AdaBoost and a Detector Cascade.} Mitsubishi Electric Research Lab, Cambridge, MA. 2001 \newline
+$\left[3\right]$	Cortes C., Vapnik V., \uv{Support Vector Networks}, \textit{Machine Learning}, vol. 20, pp. 273-297, 1995.\newline
+$\left[4\right]$	Theodoridis S., Koutroubas K., \textit{Pattern Recognition}, Elsevier Inc., 2008.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

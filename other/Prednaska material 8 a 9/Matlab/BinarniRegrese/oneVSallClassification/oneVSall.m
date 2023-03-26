@@ -1,0 +1,115 @@
+
+ccc;
+
+%%
+class1x = [1.5 2 2.5 2];
+class1y = [4 5 4.5 4.5];
+
+class2x = [1.8 2 2.5 3];
+class2y = [1 1.5 0.5 1];
+
+class3x = [4 4.5 5 5.5 4.7];
+class3y = [4 5 3.5 4.5 4.2];
+
+
+
+
+%%
+h = figure;
+plot(class1x, class1y, 'gv', 'MarkerSize', 10, 'LineWidth', 2);
+hold on;
+plot(class2x, class2y, 'bs', 'MarkerSize', 10, 'LineWidth', 2);
+
+legend('Trida 1', 'Trida 2', 4);
+xlabel('x_1');
+ylabel('x_2');
+xlim([0, 6]);
+ylim([0, 6]);
+
+print(h, '-dpdf', 'oneVSall_one');
+
+
+%%
+h = figure;
+plot(class1x, class1y, 'gv', 'MarkerSize', 10, 'LineWidth', 2);
+hold on;
+plot(class2x, class2y, 'bs', 'MarkerSize', 10, 'LineWidth', 2);
+plot(class3x, class3y, 'rx', 'MarkerSize', 10, 'LineWidth', 2);
+
+legend('Trida 1', 'Trida 2', 'Trida 3', 4);
+xlabel('x_1');
+ylabel('x_2');
+xlim([0, 6]);
+ylim([0, 6]);
+
+print(h, '-dpdf', 'oneVSall_all');
+
+
+
+
+
+
+%%
+h = figure;
+plot(class1x, class1y, 'gv', 'MarkerSize', 10, 'LineWidth', 2);
+hold on;
+plot(class2x, class2y, 'bo', 'MarkerSize', 10, 'LineWidth', 2);
+plot([0 4.5], [0.5 6], 'm-', 'MarkerSize', 10, 'LineWidth', 2);
+plot(class3x, class3y, 'bo', 'MarkerSize', 10, 'LineWidth', 2);
+
+legend('Trida 1', 'Ostatni', 'Delici primka', 4);
+xlabel('x_1');
+ylabel('x_2');
+xlim([0, 6]);
+ylim([0, 6]);
+
+print(h, '-dpdf', 'oneVSall_1');
+
+
+
+
+
+
+%%
+h = figure;
+plot(class2x, class2y, 'bs', 'MarkerSize', 10, 'LineWidth', 2);
+hold on;
+plot(class3x, class3y, 'bo', 'MarkerSize', 10, 'LineWidth', 2);
+plot([0 6], [3 2], 'm-', 'MarkerSize', 10, 'LineWidth', 2);
+plot(class1x, class1y, 'bo', 'MarkerSize', 10, 'LineWidth', 2);
+
+legend('Trida 2', 'Ostatni', 'Delici primka', 4);
+xlabel('x_1');
+ylabel('x_2');
+xlim([0, 6]);
+ylim([0, 6]);
+
+print(h, '-dpdf', 'oneVSall_2');
+
+
+
+
+
+%%
+h = figure;
+plot(class3x, class3y, 'rx', 'MarkerSize', 10, 'LineWidth', 2);
+hold on;
+plot(class2x, class2y, 'bo', 'MarkerSize', 10, 'LineWidth', 2);
+plot([4 3], [0 6], 'm-', 'MarkerSize', 10, 'LineWidth', 2);
+plot(class1x, class1y, 'bo', 'MarkerSize', 10, 'LineWidth', 2);
+
+
+legend('Trida 3', 'Ostatni', 'Delici primka', 4);
+xlabel('x_1');
+ylabel('x_2');
+xlim([0, 6]);
+ylim([0, 6]);
+
+print(h, '-dpdf', 'oneVSall_3');
+
+
+
+
+
+
+

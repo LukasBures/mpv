@@ -1,0 +1,9 @@
+\select@language {czech}
+\contentsline {chapter}{\numberline {1}Metody Po\IeC {\v c}\IeC {\'\i }ta\IeC {\v c}ov\IeC {\'e}ho Vid\IeC {\v e}n\IeC {\'\i } 9.~p\IeC {\v r}edn\IeC {\'a}\IeC {\v s}ka}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Bayesovsk\IeC {\'a} klasifikace}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Rozhodovac\IeC {\'\i } strom}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}Rozhodovac\IeC {\'\i } les}{7}{section.1.3}
+\contentsline {section}{\numberline {1.4}N\IeC {\'a}hodn\IeC {\'y} les}{7}{section.1.4}
+\contentsline {section}{\numberline {1.5}Neuronov\IeC {\'e} s\IeC {\'\i }t\IeC {\v e}}{8}{section.1.5}
+\contentsline {section}{\numberline {1.6}Konvolu\IeC {\v c}n\IeC {\'\i } neuronov\IeC {\'e} s\IeC {\'\i }t\IeC {\v e}}{12}{section.1.6}
+\contentsline {section}{\numberline {1.7}Zdroje}{14}{section.1.7}

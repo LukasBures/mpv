@@ -1,0 +1,227 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage{bm} % abych mohl psat tucne
+\usepackage[czech]{babel} % cestina
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[unicode]{hyperref} % odkazy v pdf, www a na e-mail
+\usepackage{graphicx} % obrazky
+\usepackage{epstopdf} % obrayky
+\linespread{1.10} % radkovani 1.3 odpovida radkovani 2
+\usepackage{lmodern} % daji se pouzit \HUGE atd.
+
+\usepackage[numbered,framed]{matlab-prettifier} %vkladani kodu matlabu
+\lstset{style = Matlab-editor, basicstyle = \mlttfamily, escapechar = ", mlshowsectionrules = true,}
+
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode} % Vkladani pseudo kodu
+
+
+%------------------LAYOUT----------------------------
+\usepackage[top = 2.5 cm, bottom = 2.5 cm, left = 2.5 cm, right = 2.5 cm]{geometry} % geometrie stranky
+
+%****************************************************
+\begin{document}
+
+
+\begin{center}
+\par{\textbf{Nobuyuki Otsu}, 1979}
+\end{center}
+Vypočetl: \href{mailto:zelinka@kky.zcu.cz}{Ing. Jan Zelinka, Ph.D.}\\
+Přepsal: \href{mailto:lbures@kky.zcu.cz}{Ing. Lukáš Bureš}
+\subsubsection*{Známe}
+
+\begin{eqnarray}
+	&\omega_0 &= \sum_{i = 1}^{k} p_i\\
+	&\omega_1 &= \sum_{i = k + 1}^{L} p_i\\
+	&\mu_0 &= \frac{\sum_{i = 1}^{k} i  p_i}{\omega_0}\\
+	&\mu_1 &= \frac{\sum_{i = k + 1}^{L} i  p_i}{\omega_1}\\
+	&\mu_T &= \sum_{i = 1}^{L} i  p_i\\
+	&\sigma_{0}^{2} &= \frac{\sum_{i = 1}^{k} \left( i - \mu_0 \right)^2  p_i}{\omega_0}\\
+	&\sigma_{1}^{2} &= \frac{\sum_{i = k + 1}^{L} \left( i - \mu_1 \right)^2  p_i}{\omega_1}\\
+	&\sigma_{W}^{2} &= \omega_0 \sigma_{0}^{2} + \omega_1 \sigma_{1}^{2}\\
+	&\sigma_{B}^{2}	&= \omega_0 \left( \mu_0 - \mu_T \right)^2 + \omega_1\left( \mu_1 - \mu_T \right)^2\\
+	&\sigma_{T}^{2}	&= \sum_{i = 1}^{L} \left( i - \mu_T \right)^2  p_i\\
+	&\mu_T &= \omega_0 \mu_0 + \omega_1 \mu_1\\
+	&1 &= \omega_0 + \omega_1
+\end{eqnarray}
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\subsubsection*{Výpočet 1}
+\begin{eqnarray}
+	\sigma_{T}^{2}\\
+	\sum_{i = 1}^{L} \left( i - \mu_T \right)^2  p_i\\
+	\sum_{i = 1}^{L} \left( i - \sum_{j = 1}^{L} j  p_j \right)^2  p_i\\
+	%
+	\sum_{i = 1}^{L} \left( i^2 - 2  i  \sum_{j = 1}^{L} j  p_j + \left( \sum_{j = 1}^{L} j p_j \right)^2 \right)  p_i\\
+	%
+	\sum_{i = 1}^{L} \left( i^2 p_i - \left( 2  i  \sum_{j = 1}^{L} j  p_j \right) p_i + \left( \sum_{j = 1}^{L} j p_j \right)^2  p_i \right)\\
+	%
+	\sum_{i = 1}^{L} \left( i^2 p_i \right) - \sum_{i = 1}^{L} \left(  2  i \left( \sum_{j = 1}^{L} j  p_j \right) p_i \right) + \sum_{i = 1}^{L} \left( \left( \sum_{j = 1}^{L} j p_j \right)^2  p_i \right)\\
+	%
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - \left( \sum_{i = 1}^{L} 2 i p_i \right) \cdot \left( \sum_{j = 1}^{L} j p_j \right) + \left(  \sum_{i = 1}^{L} \left( \sum_{j = 1}^{L} j p_j \right)^2 p_i \right)\\
+	%
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - \left( \sum_{i = 1}^{L} 2 i p_i \right) \cdot \left( \sum_{j = 1}^{L} j p_j \right) + \left(  \sum_{i = 1}^{L} p_i \right) \cdot  \left( \sum_{j = 1}^{L} j p_j \right)^2\\
+	%
+	\mathrm{Protože:} \quad \left(  \sum_{i = 1}^{L} p_i \right)  = 1, \quad \left( \mathrm{Součet~pravděpodobností = 1} \right) \\
+	%
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - \left( \sum_{i = 1}^{L} 2 i p_i \right) \cdot \left( \sum_{j = 1}^{L} j p_j \right) + \left( \sum_{j = 1}^{L} j p_j \right)^2\\
+	% dole 10
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - \left( \sum_{i = 1}^{L} 2 i p_i \right) \cdot \left( \sum_{j = 1}^{L} j p_j \right) + \mu_T^2\\
+	%
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - \left( 2 \sum_{i = 1}^{L} i p_i \right) \cdot \left( \sum_{j = 1}^{L} j p_j \right) + \mu_T^2\\
+	%
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - 2 \mu_T \left( \sum_{j = 1}^{L} j p_j \right) + \mu_T^2\\
+	%
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - 2 \mu_T^2 + \mu_T^2\\
+	%
+	\left( \sum_{i = 1}^{L} i^2 p_i \right) - \mu_T^2
+\end{eqnarray}
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\subsubsection*{Výpočet 2}
+\begin{eqnarray}
+	%
+	\sigma_W^2 + \sigma_B^2\\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \sigma_B^2\\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \omega_0 \left( \mu_0 - \mu_T \right)^2 + \omega_1 \left( \mu_1 - \mu_T \right)^2 \right)\\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + 	\left( \omega_0 \left( \mu_0^2 - 2 \mu_0 \mu_T + \mu_T^2 \right) + \omega_1 \left( \mu_1^2 - 2 \mu_1 \mu_T  + \mu_T^2 \right) \right)\\	
+	% 
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \omega_0 \left( \mu_0^2 - 2 \mu_0 \mu_T  \right) + \omega_1 \left( \mu_1^2 - 2 \mu_1 \mu_T \right) + \left(\omega_0 \mu_T^2 + \omega_1 \mu_T^2 \right) \right) \\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \omega_0 \left( \mu_0^2 - 2 \mu_0 \mu_T  \right) + \omega_1 \left( \mu_1^2 - 2 \mu_1 \mu_T \right) + \left(\mu_T^2 \left( \omega_0 + \omega_1 \right) \right) \right) \\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \omega_0 \left( \mu_0^2 - 2 \mu_0 \mu_T  \right) + \omega_1 \left( \mu_1^2 - 2 \mu_1 \mu_T \right) + \mu_T^2 \right) \\	
+	% 
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \omega_0 \mu_0^2 + \omega_1 \mu_1^2 + \mu_T^2 - 2 \mu_T \left( \omega_0 \mu_0 + \omega_1 \mu_1 \right) \right)\\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \omega_0 \mu_0^2 + \omega_1 \mu_1^2 + \mu_T^2 - 2 \mu_T^2 \right)\\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \omega_0 \mu_0^2 + \omega_1 \mu_1^2 - \mu_T^2 \right)\\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \left( \sum_{i = 1}^{k} p_i \right) \mu_0^2 - \omega_1 \mu_1^2 - \mu_T^2 \right) \\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \left( \sum_{i = 1}^{k} p_i \right) \mu_0^2 +  \left( \sum_{i = k + 1}^{L} p_i \right) \mu_1^2 - \mu_T^2 \right) \\
+	% 
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \left( \sum_{i = 1}^{k} \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^{L} p_i \right)  \mu_1^2 - \mu_T^2 \right)\\
+	%
+	\left( \omega_0 \sigma_0^2 + \omega_1 \sigma_1^2 \right) + \left( \left( \sum_{i = 1}^{k} \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^{L} \mu_1^2 p_i \right) - \mu_T^2 \right)\\
+	%
+	\left( \omega_0 \frac{\sum_{i = 1}^k \left( i - \mu_0 \right)^2 p_i}{\omega_0} + \omega_1 \sigma_1^2 \right) + \left( \left( \sum_{i = 1}^{k} \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^{L} \mu_1^2 p_i \right) - \mu_T^2 \right)\\
+	%
+	\left( \left( \sum_{i = 1}^k \left( i - \mu_0 \right)^2 p_i \right) + \omega_1 \sigma_1^2 \right) + 	\left( \left( \sum_{i = 1}^{k} \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^{L} \mu_1^2 p_i \right) - \mu_T^2 \right)\\
+	%
+	\left( \left( \sum_{i = 1}^k \left( i - \mu_0 \right)^2 p_i \right) + \omega_1 \frac{\sum_{i = k + 1}^L \left( i - \mu_1 \right)^2 p_i}{\omega_1} \right) + 	\left( \left( \sum_{i = 1}^{k} \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^{L} \mu_1^2 p_i \right) - \mu_T^2 \right)\\
+	%
+	\left( \sum_{i = 1}^k \left( i - \mu_0 \right)^2 p_i \right) + \left( \sum_{i = k + 1}^L \left( i - \mu_1 \right)^2 p_i\right)  + 	 \left( \sum_{i = 1}^{k} \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^{L} \mu_1^2 p_i \right) - \mu_T^2 \\
+	%
+	\left( \sum_{i = 1}^k \left( \left( i - \mu_0 \right)^2 + \mu_0^2 \right) p_i \right) + \left( \sum_{i = k + 1}^L \left( i - \mu_1 \right)^2 p_i\right)  + \left( \sum_{i = k + 1}^{L} \mu_1^2 p_i \right) - \mu_T^2 \\
+	%
+	\left( \sum_{i = 1}^k \left( \left( i - \mu_0 \right)^2 + \mu_0^2 \right) p_i \right) + \left( \sum_{i = k + 1}^L \left( \left( i - \mu_1 \right)^2 + \mu_1^2 \right) p_i\right) - \mu_T^2 \\
+	%
+	\left( \sum_{i = 1}^k \left( i^2 - 2 i \mu_0 + 2 \mu_0^2 \right) p_i \right) + \left( \sum_{i = k + 1}^L \left( \left( i - \mu_1 \right)^2 + \mu_1^2 \right) p_i\right) - \mu_T^2 \\
+	%
+	\left( \sum_{i = 1}^k \left( i^2 - 2 i \mu_0 + 2 \mu_0^2 \right) p_i \right) + \left( \sum_{i = k + 1}^L \left( i^2 - 2 i \mu_1 + 2 \mu_1^2 \right) p_i \right) - \mu_T^2
+	%
+\end{eqnarray}
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\subsubsection*{Výpočet 3}
+\begin{eqnarray}
+	%
+	\sigma_W^2 + \sigma_B^2 = \sigma_T^2\\
+	%
+	\left( \sum_{i = 1}^k \left( i^2 - 2 i \mu_0 + 2 \mu_0^2 \right) p_i \right) + \left( \sum_{i = k + 1}^L \left( i^2 - 2 i \mu_1 + 2 \mu_1^2 \right) p_i \right) - \mu_T^2 = \left( \sum_{i = 1}^{L} i^2 p_i \right) - \mu_T^2\\
+	%
+	\left( \sum_{i = 1}^k \left(- 2 i \mu_0 + 2 \mu_0^2 \right) p_i \right) + \left( \sum_{i = k + 1}^L \left(- 2 i \mu_1 + 2 \mu_1^2 \right) p_i \right) - \mu_T^2 = - \mu_T^2\\
+	%
+	\left( 2 \sum_{i = 1}^k \left(-  i \mu_0 + \mu_0^2 \right) p_i \right) + \left( 2 \sum_{i = k + 1}^L \left(- i \mu_1 + \mu_1^2 \right) p_i \right) = 0\\
+	%
+	\left( \sum_{i = 1}^k \left(- i \mu_0 + \mu_0^2 \right) p_i \right) + \left( \sum_{i = k + 1}^L \left(- i \mu_1 + \mu_1^2 \right) p_i \right) = 0\\
+	% 
+	\left( \sum_{i = 1}^k - i \mu_0 p_i + \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^L \left(- i \mu_1 + \mu_1^2 \right) p_i \right) = 0\\
+	%
+	\left( \sum_{i = 1}^k - i \mu_0 p_i + \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^L - i \mu_1 p_i + \mu_1^2 p_i \right) = 0\\
+	%
+	\left( \sum_{i = 1}^k - i \mu_0 p_i \right) + \left( \sum_{i = 1}^k \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^L - i \mu_1 p_i + \mu_1^2 p_i \right) = 0\\
+	%
+	\left( \sum_{i = 1}^k \left( - i p_i \right) \mu_0 \right) + \left( \sum_{i = 1}^k \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^L - i \mu_1 p_i + \mu_1^2 p_i \right) = 0\\
+	%
+	- \omega_0 \mu_0^2 + \left( \sum_{i = 1}^k \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^L - i \mu_1 p_i + \mu_1^2 p_i \right) = 0\\
+	%
+	- \left( \omega_0  \mu_0^2 + \omega_1  \mu_1^2 \right) + \left( \sum_{i = 1}^k \mu_0^2 p_i \right) + \left( \sum_{i = k + 1}^L \mu_1^2 p_i \right) = 0\\
+	%
+	- \left( \omega_0  \mu_0^2 + \omega_1  \mu_1^2 \right) + \left( \sum_{i = 1}^k p_i \right)\mu_0^2  + \left( \sum_{i = k + 1}^L \mu_1^2 p_i \right) = 0\\
+	%
+	- \left( \omega_0  \mu_0^2 + \omega_1  \mu_1^2 \right) + \left( \sum_{i = 1}^k p_i \right) \mu_0^2 +  \left( \sum_{i = k + 1}^L p_i \right)\mu_1^2 = 0\\
+	%
+	- \left( \omega_0  \mu_0^2 + \omega_1  \mu_1^2 \right) +  \omega_0 \mu_0^2+  \left( \sum_{i = k + 1}^L p_i \right)\mu_1^2 = 0\\
+	%
+	- \left( \omega_0  \mu_0^2 + \omega_1  \mu_1^2 \right) + \omega_0  \mu_0^2 + \omega_1 \mu_1^2 = 0\\
+	%
+	0 = 0
+	%
+	%
+	%
+	%
+\end{eqnarray}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

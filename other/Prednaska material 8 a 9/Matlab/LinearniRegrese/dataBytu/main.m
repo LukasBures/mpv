@@ -1,0 +1,21 @@
+
+%% Vycisteni
+clear all;
+close all;
+clc;
+
+%% Data 
+x = [19 22 25 24 26 28 32 24 28 38 36 34 38 41 49 48 47 48 51 52 53 57 59 54 68 62 67 68 62 78 75 82 87 89 95 102 105 111 125 130 150];
+y = [500 490 568 548 650 666 1350 954 1025 1028 1499 1025 711 1199 1824 1268 1258 1348 1500 1100 1521 1756 1782 1682 1852 ... 
+    1956 2014 2128 2346 2458 2548 2600 2700 2856 3000 3089 3158 4068 4504 4780 5060];
+
+save('data.mat', 'x', 'y');
+
+%% Vykresleni
+h = figure;
+plot(x, y, 'rx', 'MarkerSize', 10, 'LineWidth', 2);
+xlabel('Podlahova plocha v m^2', 'FontSize', 12);
+ylabel('Cena bytu v tis. Kc', 'FontSize', 12);
+
+%% ulozeni do souboru
+print(h, '-dpdf', 'cena_plocha');

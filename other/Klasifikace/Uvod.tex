@@ -1,0 +1,117 @@
+
+
+
+
+
+
+
+
+
+
+
+
+%----UVOD----------------------------------------------------------------------------------
+\chapter{Úvod}
+\label{sec:Uvod}
+
+
+
+
+
+
+
+
+
+%----CO-JE-STROJOVE-UCENI-------------------------------------------------------------------
+\section{Co je strojové učení?}
+\label{sec:UvodCoJeStrojoveUceni}
+
+\par{Pojem strojové učení nemá dodnes pevně danou definici, můžeme si ukázat několik pokusů o jeho definování
+\begin{itemize}
+	\item Arthur Samuel (1959). Strojové učení: \textit{Obor, který dává počítačům schopnost učit se bez toho, aby byly přímo naprogramovány.}
+	\item Tom Mitchell (1998): Dobře definovaný problém strojového učení: \textit{Předpokladem je, že se počítačový program učí ze zkušeností \textbf{E} s respektováním úlohy \textbf{T} a s měřičem výkonu \textbf{P}, pokud se jeho výkon na úloze \textbf{T} měřený pomocí \textbf{P} zvyšuje se zkušeností \textbf{E}.}
+\end{itemize}}
+
+\par{Pokusme se jednotlivé části rozebrat na příkladu: Předpokládejme, že náš emailový klient sleduje, které email označíme nebo neoznačíme jako spam. Na základě tohoto rozhodnutí se náš emailový klient učí lépe rozpoznávat co je a co není spam. Nyní si můžeme položit otázku co z následujících tvrzení je úloha \textbf{T}?
+\begin{enumerate}
+	\item Klasifikace emailů jako spam nebo vyžádaný email.
+	\item Sledování značek od uživatele, který email označil jako spam nebo vyžádaný email.
+	\item Počet (nebo poměr) emailů, které byly správně klasifikovány jako spam nebo vyžádaný email.
+	\item Nic z výše uvedeného - není to problém strojového učení.
+\end{enumerate}
+Pokud si rozebereme jednotlivé body výše, tak bod jedna je definice úlohy \textbf{T}, dále bod dva je zkušenost \textbf{E} a třetí bod je náš měřič výkonu \textbf{P}.}
+
+\par{Existuje několik rozdílných typů učících se algoritmů. Hlavní dva typy se nazývají
+\begin{itemize}
+	\item učení s učitelem a
+	\item učení bez učitele.
+\end{itemize}}
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----UCENI-S-UCITELEM-----------------------------------------------------------------
+\section{Učení s učitelem}
+\label{sec:UvodUceniSUcitelem}
+
+\par{\textbf{Učení s učitelem} je metoda strojového učení pro učení funkce z trénovacích dat. Trénovací data sestávají ze dvojic vstupních objektů (typicky vektorů příznaků) a požadovaného výstupu. Výstup funkce může být spojitá hodnota (při regresi) anebo může předpovídat označení třídy vstupního objektu (při klasifikaci). Úloha algoritmu učení je předpovídat výstupní hodnotu funkce pro každý platný vstupní objekt poté, co zpracuje trénovací příklady (tj. dvojice vstup a požadovaný výstup). Aby to dokázal, musí algoritmus zobecnit prezentovaná data na nové situace (vstupy) \uv{smysluplným} způsobem. Analogická úloha v lidské a zvířecí psychologii se často nazývá učení konceptů.
+
+\par{\textbf{Přetrénování} (anglicky \textit{overfitting}) je stav, kdy je systém příliš přizpůsoben množině trénovacích dat, ale nemá schopnost generalizace a selhává na testovací (validační) množině dat. To se může stát například při malém rozsahu trénovací množiny nebo pokud je systém příliš komplexní (například příliš mnoho skrytých neuronů v neuronové síti). Řešením je zvětšení trénovací množiny, snížení složitosti systému nebo různé techniky regularizace, zavedení omezení na parametry systému, které v důsledku snižuje složitost popisu naučené funkce, nebo předčasné ukončení (průběžné testování na validační množině a konec učení ve chvíli, kdy se chyba na této množině dostane do svého minima).}
+
+\par{Při učení se používají trénovací data (nebo trénovací množina), testovací data a často validační data.}
+
+\par{\textbf{Příklady algoritmů:} rozhodovací stromy, AdaBoost, náhodné rozhodovací lesy, metoda nejbližšího souseda, metoda K-nejbližších sousedů, lineární regrese, Bayesův klasifikátor, neuronové sítě, binární regrese, support vector machine (SVM), atd.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-----UCENI-BEZ-UCITELEM-----------------------------------------------------------------
+\section{Učení bez učitele}
+\label{sec:UvodUceniBezUcitele}
+
+\par{\textbf{Příklady algoritmů:} BIRCH, hierarchické algoritmy, divizní algoritmy, K-means (MacQueen algoritmus), expectation-maximization (EM) algoritmus, atd.}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

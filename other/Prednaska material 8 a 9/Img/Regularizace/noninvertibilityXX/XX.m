@@ -1,0 +1,1 @@
+Theta = pinv(X' * X) * X' * y;

@@ -1,0 +1,45 @@
+\select@language {czech}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces V\IeC {\'y}voj ceny bytu v z\IeC {\'a}vislosti na podlahov\IeC {\'e} plo\IeC {\v s}e.\relax }}{4}{figure.caption.4}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Sch\IeC {\'e}ma u\IeC {\v c}en\IeC {\'\i } s u\IeC {\v c}itelem.\relax }}{5}{figure.caption.6}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces V\IeC {\'y}sledn\IeC {\'a} line\IeC {\'a}rn\IeC {\'\i } regrese na\IeC {\v s}eho \IeC {\'u}vodn\IeC {\'\i }ho p\IeC {\v r}\IeC {\'\i }kladu po v\IeC {\'y}po\IeC {\v c}tu gradientn\IeC {\'\i }m algoritmem.\relax }}{9}{figure.caption.9}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Tr\IeC {\'e}novac\IeC {\'\i } data.\relax }}{16}{figure.caption.14}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Line\IeC {\'a}rn\IeC {\'\i } regrese. ~\relax }}{16}{figure.caption.15}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Line\IeC {\'a}rn\IeC {\'\i } regrese - ur\IeC {\v c}en\IeC {\'\i } rozhodovac\IeC {\'\i }ho prahu.\relax }}{16}{figure.caption.15}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Roz\IeC {\v s}\IeC {\'\i }\IeC {\v r}en\IeC {\'\i } tr\IeC {\'e}novac\IeC {\'\i } mno\IeC {\v z}iny dat o dva vzorky vpravo. ~\relax }}{17}{figure.caption.16}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Line\IeC {\'a}rn\IeC {\'\i } regrese - ur\IeC {\v c}en\IeC {\'\i } rozhodovac\IeC {\'\i }ho prahu a zobrazen\IeC {\'\i } jeho selh\IeC {\'a}n\IeC {\'\i } p\IeC {\v r}i predikci.\relax }}{17}{figure.caption.16}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Sigmoidn\IeC {\'\i } funkce $g \left ( z \right )$.\relax }}{18}{figure.caption.17}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Sigmoidn\IeC {\'\i } funkce $g \left ( z \right )$.\relax }}{20}{figure.caption.20}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Vizualizace dvou t\IeC {\v r}\IeC {\'\i }d. ~\relax }}{21}{figure.caption.22}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Vizualizace rozhodovac\IeC {\'\i } hranice.\relax }}{21}{figure.caption.22}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Vizualizace line\IeC {\'a}rn\IeC {\v e} neseparabiln\IeC {\'\i }ch t\IeC {\v r}\IeC {\'\i }d. ~\relax }}{22}{figure.caption.24}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Vizualizace line\IeC {\'a}rn\IeC {\v e} neseparabiln\IeC {\'\i }ch t\IeC {\v r}\IeC {\'\i }d spole\IeC {\v c}n\IeC {\v e} s~rozhodovac\IeC {\'\i } hranic\IeC {\'\i }.\relax }}{22}{figure.caption.24}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Pr\IeC {\r u}b\IeC {\v e}h ztr\IeC {\'a}tov\IeC {\'e} funkce.\relax }}{24}{figure.caption.26}
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Klasifikace do dvou t\IeC {\v r}\IeC {\'\i }d.\relax }}{29}{figure.caption.31}
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Klasifikace do v\IeC {\'\i }ce t\IeC {\v r}\IeC {\'\i }d.\relax }}{29}{figure.caption.31}
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Rozlo\IeC {\v z}en\IeC {\'\i } t\IeC {\v r}\IeC {\'\i }d $y = \{1,~2,~3\}$.\relax }}{30}{figure.caption.32}
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Klasifikace t\IeC {\v r}\IeC {\'\i }dy 1.\relax }}{30}{figure.caption.32}
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Klasifikace t\IeC {\v r}\IeC {\'\i }dy 2.\relax }}{30}{figure.caption.33}
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Klasifikace t\IeC {\v r}\IeC {\'\i }dy 3.\relax }}{30}{figure.caption.33}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Tr\IeC {\'e}novac\IeC {\'\i } data.\relax }}{31}{figure.caption.35}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Line\IeC {\'a}rn\IeC {\'\i } regrese (\textit {underfit}, \textit {high bias}).\relax }}{31}{figure.caption.35}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Regrese pomoc\IeC {\'\i } hypot\IeC {\'e}zy ve tvaru polynomu druh\IeC {\'e}ho stupn\IeC {\v e} (\textit {just right}).\relax }}{32}{figure.caption.36}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Regrese pomoc\IeC {\'\i } hypot\IeC {\'e}zy ve tvaru polynomu \IeC {\v c}tvrt\IeC {\'e}ho stupn\IeC {\v e} (\textit {overfitting}, \textit {high variance}).\relax }}{32}{figure.caption.36}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Regrese pomoc\IeC {\'\i } hypot\IeC {\'e}zy ve tvaru polynomu druh\IeC {\'e}ho stupn\IeC {\v e} (\textit {just right}).\relax }}{33}{figure.caption.39}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Regrese pomoc\IeC {\'\i } hypot\IeC {\'e}zy ve tvaru polynomu \IeC {\v c}tvrt\IeC {\'e}ho stupn\IeC {\v e} (\textit {overfitting}, \textit {high variance}).\relax }}{33}{figure.caption.39}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Pou\IeC {\v z}it\IeC {\'\i } regularizace k z\IeC {\'\i }sk\IeC {\'a}n\IeC {\'\i } \textit {underfit} hypot\IeC {\'e}zy.\relax }}{34}{figure.caption.41}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Mo\IeC {\v z}n\IeC {\'y} v\IeC {\'y}sledek s pou\IeC {\v z}it\IeC {\'\i }m hypot\IeC {\'e}zy z rovnice \ref {eq:BReg_hypo}.\relax }}{37}{figure.caption.46}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {9.1}{\ignorespaces Klasifikace do dvou t\IeC {\v r}\IeC {\'\i }d - u\IeC {\v c}en\IeC {\'\i } s u\IeC {\v c}itelem.\relax }}{42}{figure.caption.49}
+\contentsline {figure}{\numberline {9.2}{\ignorespaces Klasifikace do dvou t\IeC {\v r}\IeC {\'\i }d s~d\IeC {\v e}l\IeC {\'\i }c\IeC {\'\i } nadrovinou - u\IeC {\v c}en\IeC {\'\i } s~u\IeC {\v c}itelem.\relax }}{42}{figure.caption.49}
+\contentsline {figure}{\numberline {9.3}{\ignorespaces Klasifikace do dvou t\IeC {\v r}\IeC {\'\i }d - u\IeC {\v c}en\IeC {\'\i } bez u\IeC {\v c}itele.\relax }}{43}{figure.caption.51}
+\contentsline {figure}{\numberline {9.4}{\ignorespaces Klasifikace do dvou t\IeC {\v r}\IeC {\'\i }d s nazna\IeC {\v c}en\IeC {\'y}mi shluky - u\IeC {\v c}en\IeC {\'\i } bez u\IeC {\v c}itele.\relax }}{43}{figure.caption.51}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

@@ -1,0 +1,94 @@
+
+%% ------------------------
+
+\documentclass[12pt, a4paper]{report}
+
+\usepackage{bm} % abych mohl psat tucne
+\usepackage[czech]{babel} % cestina
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[unicode]{hyperref} % odkazy v pdf, www a na e-mail
+\usepackage{graphicx} % obrazky
+\usepackage{epstopdf} % obrazky
+\usepackage{caption} % obrazky abych mohl udelat v popisku \\ ~
+\usepackage{subcaption} % obrazky abych mohl udelat v popisku \\ ~
+\usepackage{abraces, mathtools} % svorka zespoda
+\linespread{1.10} % radkovani 1.3 odpovida radkovani 2
+\usepackage{lmodern} % daji se pouzit \HUGE atd.
+
+\usepackage[numbered,framed]{matlab-prettifier} %vkladani kodu matlabu
+\lstset{style = Matlab-editor, basicstyle = \mlttfamily, escapechar = ", mlshowsectionrules = true,}
+
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode} % Vkladani pseudo kodu
+
+
+
+
+
+
+%------------------DRAFT----------------------------
+\usepackage{draftwatermark}
+\SetWatermarkLightness{0.95}
+\SetWatermarkScale{1}
+\SetWatermarkText{DRAFT}
+
+
+%------------------LAYOUT----------------------------
+\usepackage[top = 2.5 cm, bottom = 2.5 cm, left = 2.5 cm, right = 2.5 cm]{geometry} % geometrie stranky
+\usepackage{longtable}% Pro dlouhy obsah, da se zalomit \pagebrek
+\usepackage{fancyhdr}
+\pagestyle{fancy}% Deffaultni nastaveni hlavicky a paticky
+\setlength{\headheight}{16 pt}% Zvetsi hlavicku, aby to nedelalo warningy
+\fancyhf{}
+\lhead{\bfseries \leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Poslední úpravy: \today}
+
+%****************************************************
+\begin{document}
+
+ 
+%--------TITULNI-STRANA------------------------------
+\begin{titlepage}
+\begin{center}
+	\vspace*{\fill}
+	\textbf{\Huge{Machine Learning\\ Strojové učení}}\\
+	\vspace*{\fill}
+	\textbf{\large{\href{mailto:LBures@kky.zcu.cz}{Ing. Lukáš Bureš}}} \hfill ~\\
+	\textbf{\large{\href{mailto:PetrZim@kky.zcu.cz}{Ing. Petr Zimmermann}}} \hfill \textbf{\large{Plzeň}}\\
+	\textbf{\large{Katedra kybernetiky}} \hfill \textbf{\large{\today}}
+\end{center}
+\end{titlepage}
+
+
+%--------OBSAH----------------------------------------
+\setcounter{page}{1}
+\pagenumbering{Roman}
+
+\tableofcontents
+\newpage
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+%--------SEKCE----------------------------------------
+\include{Prednaska07}
+\include{Prednaska08}
+
+
+%-------REFERENCE--------------------------------------
+%\addcontentsline{toc}{chapter}{Literatura}
+
+%\setcounter{page}{1}
+%\pagenumbering{Roman}
+
+%\bibliographystyle{IEEEtran}
+%\bibliography{MYreferences}
+
+
+
+
+\end{document}
+

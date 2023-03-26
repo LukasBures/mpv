@@ -1,0 +1,18 @@
+
+
+1a
+vsichni 5% tak jak to je
+
+1b
+duspivao - vystup cca ok 9% (posunuto o 1px)
+       22 pts1[i, 0] = round(x, 0)
+       23 pts1[i, 1] = round(y, 0)
+       neni potreba
+jhranick - vystup ok 10%, + za debugger
+maceko - nespusti se - po uprave se spusti ale pruh zezhora dolu je mimo = 5%
+popelkar - ok 10%
+
+1c
+duspivao - 9%
+jhranick - 10%
+popelkar - 9%

@@ -1,0 +1,1 @@
+gradient(3) = [code to compute gradient(3)];

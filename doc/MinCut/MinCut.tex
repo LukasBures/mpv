@@ -1,0 +1,189 @@
+
+\documentclass[12pt, a4paper]{article}
+
+%-----------USEPACKAGE----------------------------
+\usepackage{bm} % Tucne pismo
+\usepackage[czech]{babel} % Cestina
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\linespread{1.10} % Radkovani 1.3 odpovida radkovani 2
+\usepackage{lmodern} % Daji se pouzit \HUGE atd.
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode} % Vkladani pseudo kodu
+\usepackage{listings}
+\usepackage{setspace}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{color}
+\graphicspath{{./img/}}
+
+% Hyperref and its color
+\usepackage[unicode]{hyperref} % Odkazy v pdf, www a na e-mail
+\usepackage[hypcap=true]{caption}
+\usepackage[hypcap=true,list=true]{subcaption}
+\hypersetup{colorlinks = true, citecolor = black}
+\hypersetup{linkcolor=red}
+\hypersetup{colorlinks,urlcolor=black}
+
+%-----------COLORS--------------------------------
+\definecolor{Code}{rgb}{0,0,0}
+\definecolor{Decorators}{rgb}{0.5,0.5,0.5}
+\definecolor{Numbers}{rgb}{0.5,0,0}
+\definecolor{MatchingBrackets}{rgb}{0.25,0.5,0.5}
+\definecolor{Keywords}{rgb}{0,0,1}
+\definecolor{self}{rgb}{0,0,0}
+\definecolor{Strings}{rgb}{0,0.63,0}
+\definecolor{Comments}{rgb}{0,0.63,1}
+\definecolor{Backquotes}{rgb}{0,0,0}
+\definecolor{Classname}{rgb}{0,0,0}
+\definecolor{FunctionName}{rgb}{0,0,0}
+\definecolor{Operators}{rgb}{0,0,0}
+\definecolor{Background}{rgb}{1, 1, 1}
+
+%-----------LISTINGS-SETTINGS----------------------
+\lstset{
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=0.5em,
+	xleftmargin=1.5em,
+	xrightmargin=0em,
+	framextopmargin=0em,
+	framexbottommargin=0em,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	frame=lrtb,
+	tabsize=4,
+	% Basic
+	basicstyle=\ttfamily\footnotesize\setstretch{1},
+	backgroundcolor=\color{Background},
+	language=Python,
+	% Comments
+	commentstyle=\color{Comments}\slshape,
+	% Strings
+	stringstyle=\color{Strings},
+	morecomment=[s][\color{Strings}]{"""}{"""},
+	morecomment=[s][\color{Strings}]{'''}{'''},
+	% Keywords
+morekeywords={import,from,class,def,for,while,if,is,in,elif,else,not,and,or,print,break,continue,return,True,False,None,access,as,del,except,exec,finally,global,import,lambda,pass,print,raise,try,assert},
+	keywordstyle={\color{Keywords}\bfseries},
+	% Additional keywords
+	morekeywords={[2]@invariant},
+	keywordstyle={[2]\color{Decorators}\slshape},
+	emph={self},
+	emphstyle={\color{self}\slshape},
+	breaklines=true, % Zalamuje radky.
+}
+
+
+
+
+
+
+
+
+
+
+
+%------------------LAYOUT----------------------------
+\usepackage[top = 2.5 cm, bottom = 2.5 cm, left = 2.5 cm, right = 2.5 cm]{geometry} % geometrie stranky
+\usepackage{longtable}% Pro dlouhy obsah, da se zalomit \pagebrek
+\usepackage{fancyhdr}
+\pagestyle{fancy}% Deffaultni nastaveni hlavicky a paticky
+\setlength{\headheight}{16 pt}% Zvetsi hlavicku, aby to nedelalo warningy
+\fancyhf{}
+\lhead{\href{http://www.kky.zcu.cz/cs/courses/mpv}{Metody Počítačového Vidění}}
+%\rhead{\cisloCviceni}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Verze 1.0.0, poslední úpravy: \today}
+
+
+
+
+
+
+
+
+%---------------BEGIN-DOCUMENT--------------------------
+\begin{document}
+ 
+
+
+
+
+
+
+
+
+
+ 
+%--------TITLE-PAGE--------------------------------------------
+\begin{titlepage}
+\begin{center}
+	\includegraphics[trim = 0.6cm 0.5cm 0.9cm 0.5cm, scale=1]{FAV_logo_cz.pdf}
+	\hspace*{\fill}
+	\includegraphics[trim = 3.5cm 1.5cm 2.6cm 2cm, scale=0.295]{./KKY_logo_cz.pdf}\\
+	\vspace*{\fill}
+	\textbf{\Huge{\href{http://www.kky.zcu.cz/cs/courses/mpv}{Metody Počítačového Vidění} \\ ~ \\ Doplňkový materiál k~semestrální~práci~1b}}\\
+	\vspace*{\fill}
+	\textbf{\large{\href{mailto:LBures@kky.zcu.cz}{Ing. Lukáš Bureš}}} \hfill \textbf{\large{Plzeň, \today}}
+\end{center}
+\end{titlepage}
+
+
+
+
+
+
+
+
+
+
+
+
+%--------OBSAH-CVICENI---------------------------------
+%\section*{MinCut}
+
+\begin{enumerate}
+	\item \textbf{Zadání:} Mějme šedotónový obrázek $I$ s hodnotami 0-255 (a jednotlivými hodnotami pixelů $I_{xy}$), kde objekt je tvořen nízkými hodnotami. Cílem je provést segmentaci na popředí (nízké hodnoty) a pozadí (vysoké hodnoty) pomocí metody MinCut.
+	\item \textbf{Vytvoření grafu:} 
+		\begin{enumerate}
+			\item $S$ (Source - pozadí) = $\max \left( I \right)$.
+			\item $T$ (Terminal - popředí) = $\min \left( I \right)$.
+			\item Naplním: $S_{xy} = \left| \max \left( I \right) - I_{xy}  \right|$, hodnoty hran k Source.
+			\item Naplním: $T_{xy} = \left| \min \left( I \right) - I_{xy}  \right|$, hodnoty hran k Terminal.
+			\item Naplním hrany $H$ mezi jednotlivými pixely: $\left| I_{xy1} - I_{xy2}  \right|$, kde $I_{xy1}$ je hodnota jednoho pixelu a $I_{xy2}$ sousedícího pixelu přes právě vypočítávanou hranu.
+			\item Invertuji všechny hodnoty $S_{xy}, T_{xy}$ a $H$ následovně: $\left| \max \left( I \right) - S_{xy}  \right|$, \\ $\left| \max \left( I \right) - T_{xy}  \right|$~a~$\left| \max \left( I \right) - H  \right|$.
+		\end{enumerate}
+	\item \textbf{Výpočet:} Hledáme cestu z $S$ do $T$ (ne nutně nejkratší), od které odečteme minimální hodnotu hrany (dané hrana bude přerušena), toto opakuji tak dlouho dokud existuje cesta z $S$ do $T$.
+	\item \textbf{Výsledek:} Popředí jsou takové pixely $I_{xy}$, které jsou nenulovou hranou propojeny~k~$T$.\\
+\end{enumerate}
+\includegraphics[width=\textwidth]{tabule.JPG}
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=\textwidth]{graph.png}
+	\caption{Ukázka výsledné segmentace, kde neexistuje cesta z $S$ do $T$.}
+\end{figure}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

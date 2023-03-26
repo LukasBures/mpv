@@ -1,0 +1,176 @@
+
+\documentclass[12pt, a4paper]{article}
+
+%-----------USEPACKAGE----------------------------
+\usepackage{bm} % Tucne pismo
+\usepackage[czech]{babel} % Cestina
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[unicode]{hyperref} % Odkazy v pdf, www a na e-mail
+\usepackage{graphicx} % Obrazky
+\usepackage{epstopdf} % Obrazky
+\linespread{1.10} % Radkovani 1.3 odpovida radkovani 2
+\usepackage{lmodern} % Daji se pouzit \HUGE atd.
+\usepackage{amsmath}
+%\usepackage{algorithm}
+%\usepackage[noend]{algpseudocode} % Vkladani pseudo kodu
+\usepackage{color}
+\usepackage{listings}
+\usepackage{setspace}
+\graphicspath{{./img/}}
+
+%-----------COLORS--------------------------------
+\definecolor{Code}{rgb}{0,0,0}
+\definecolor{Decorators}{rgb}{0.5,0.5,0.5}
+\definecolor{Numbers}{rgb}{0.5,0,0}
+\definecolor{MatchingBrackets}{rgb}{0.25,0.5,0.5}
+\definecolor{Keywords}{rgb}{0,0,1}
+\definecolor{self}{rgb}{0,0,0}
+\definecolor{Strings}{rgb}{0,0.63,0}
+\definecolor{Comments}{rgb}{0,0.63,1}
+\definecolor{Backquotes}{rgb}{0,0,0}
+\definecolor{Classname}{rgb}{0,0,0}
+\definecolor{FunctionName}{rgb}{0,0,0}
+\definecolor{Operators}{rgb}{0,0,0}
+\definecolor{Background}{rgb}{1, 1, 1}
+
+%-----------LISTINGS-SETTINGS----------------------
+\lstset{
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=0.5em,
+	xleftmargin=1.5em,
+	xrightmargin=0em,
+	framextopmargin=0em,
+	framexbottommargin=0em,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	frame=lrtb,
+	tabsize=4,
+	% Basic
+	basicstyle=\ttfamily\footnotesize\setstretch{1},
+	backgroundcolor=\color{Background},
+	language=Python,
+	% Comments
+	commentstyle=\color{Comments}\slshape,
+	% Strings
+	stringstyle=\color{Strings},
+	morecomment=[s][\color{Strings}]{"""}{"""},
+	morecomment=[s][\color{Strings}]{'''}{'''},
+	% Keywords
+morekeywords={import,from,class,def,for,while,if,is,in,elif,else,not,and,or,print,break,continue,return,True,False,None,access,as,del,except,exec,finally,global,import,lambda,pass,print,raise,try,assert},
+	keywordstyle={\color{Keywords}\bfseries},
+	% Additional keywords
+	morekeywords={[2]@invariant},
+	keywordstyle={[2]\color{Decorators}\slshape},
+	emph={self},
+	emphstyle={\color{self}\slshape},
+	breaklines=true, % Zalamuje radky.
+}
+
+
+
+
+
+
+%------------------VARIABLES----------------------------
+\newcommand{\cisloZadani}{Systém automatické kontroly semestrálních prací}
+
+
+
+
+
+
+
+
+
+%------------------LAYOUT----------------------------
+\usepackage[top = 2.5 cm, bottom = 2.5 cm, left = 2.5 cm, right = 2.5 cm]{geometry} % geometrie stranky
+\usepackage{longtable}% Pro dlouhy obsah, da se zalomit \pagebrek
+\usepackage{fancyhdr}
+\pagestyle{fancy}% Deffaultni nastaveni hlavicky a paticky
+\setlength{\headheight}{16 pt}% Zvetsi hlavicku, aby to nedelalo warningy
+\fancyhf{}
+\lhead{\href{http://www.kky.zcu.cz/cs/courses/mpv}{Metody Počítačového Vidění}}
+\rhead{\cisloZadani}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Verze 2.0.0, poslední úpravy: \today}
+
+
+
+
+
+
+
+
+%---------------BEGIN-DOCUMENT--------------------------
+\begin{document}
+ 
+
+
+
+
+
+
+
+
+
+ 
+%--------TITLE-PAGE--------------------------------------------
+\begin{titlepage}
+\begin{center}
+	\includegraphics[trim = 0.6cm 0.5cm 0.9cm 0.5cm, scale=1]{./FAV_logo_cz.pdf}
+	\hspace*{\fill}
+	\includegraphics[trim = 3.5cm 1.5cm 2.6cm 2cm, scale=0.295]{./KKY_logo_cz.pdf}\\
+	\vspace*{\fill}
+	\textbf{\Huge{\href{http://www.kky.zcu.cz/cs/courses/mpv}{Metody Počítačového Vidění} \\ ~ \\ \cisloZadani}}\\
+	\vspace*{\fill}
+	\textbf{\large{\href{mailto:neduchal@kky.zcu.cz}{Ing. Petr Neduchal}}} \hfill \textbf{\large{Plzeň, \today}}
+\end{center}
+\end{titlepage}
+
+
+
+
+
+
+
+%-------------------------------------------------------------
+\section*{Vlastnosti}
+\par{Systém Automatické Kontroly semestrálních prací (SAKo) slouží ke kontrole semestrálních prací vytvořených v některém z podporovaných programovacích jazyků. Systém je založen na architektuře klient server. Student v roli klienta naprogramuje svoji semestrální práci a zavolá odevzdávací funkci distribuovanou v rámci SAKo knihovny. Odevzdávací funkce následně kontaktuje server a provede celý proces odevzdání. Výsledkem je uložení záznamu o pokusu odevzdání do databáze serveru a informace pro studenta obsahující počet získaných bodů za splněnou úlohu. Poměrně důležitou funkcí systému je omezení frekvence odevzdávání, aby se nestalo, že jediný klient zahltí server i databázi svými pokusy o odevzdávání. Aby bylo dále možné klienta identifikovat, má systém zabudovaný autentifikační systém, díky kterému může odevzdávat pouze ten klient, který má v systému zavedeny své údaje včetně přihlašovacího jména a hesla. Důležité je též zmínit, že systém nekontroluje jen samotný výsledek úlohy, ale rovněž nahraje kompletní semestrální práci studenta na náš server. Tato nahraná práce pak slouží ke kontrole plagiátorství. Také pomůže v případě, že student vyučujícího kontaktuje s žádostí o radu. Díky výše zmíněným vlastnostem se významně zjednodušuje celý proces odevzdání a kontroly semestrální práce.}
+
+\section*{Sedmero systému SAKo}
+\begin{itemize}
+	\item {Student je v systému brán vždy jako Klient, komunikace probíhá vždy Klient $\rightarrow$ Server.}
+	\item {Student se vždy přihlašuje pod svým přihlašovacím jménem a heslem.}
+	\item {U každé úlohy je nastaveno omezení frekvence odevzdávání na 15 minut.}
+	\item {Odevzdání práce po deadlinu není možné, systém takové odevzdání nepřijme.}
+	\item {Společně s výsledky se na server uploaduje i celý studentův skript. Skripty budou kontrolovány na plagiátorství a využití pouze povolených metod.}
+	\item {Systém SAKo je nadále ve vývoji. Proto doporučujeme čas od času kontrolovat tento \href{http://github.com/neduchal/SAKo}{Git repozitář} kvůli aktualizacím.}
+	\item {V případě problémů s klientem systému SAKo napište na mail  \href{mailto:neduchal@kky.zcu.cz}{Ing. Petr Neduchal}, zvolte vhodný předmět e-mailu a popište svůj problém.}			
+\end{itemize}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

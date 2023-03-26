@@ -1,0 +1,222 @@
+
+
+
+%------------BACKGROUND-SUBTRACTION----------
+\section{Metoda odečítání pozadí}
+\label{sec:background_subtraction}
+
+\par{Metoda odečítání pozadí je technika v~oblasti zpracování obrazu a~po\-čí\-ta\-čo\-vé\-ho vidění, při níž dochází k~extrakci popředí pro další zpracování (například rozpoznávání objektů atd.). Obecně tvoří oblasti zájmu objekty (lidé, auta atd.), které jsou v~popředí. Po fázi předzpracování, která může například obsahovat odstranění šumu, je nasazena metoda odečítání pozadí a~její výstupy mohou sloužit jako vstupy pro další metody lokalizace objektu. Odečítání pozadí je široce používaný přístup pro detekci pohybujících se objektů ve videích ze statických kamer. Princip metody spočívá v~detekci pohybujících se objektů z~rozdílu mezi aktuálním snímkem a~referenčním snímkem, kterým může být například obrázek pozadí. Tato metoda se většinou používá v~případě, že je snímek součástí video sekvence. V~této kapitole byly čerpány informace z~\cite{sonka2008image},~\cite{Benezeth} a~\cite{BS03}.}
+
+
+
+
+
+
+
+
+
+%------------OBECNY-PRISTUP----------------
+\subsection{Obecný přístup}
+\label{sec:obecny_pristupy}
+
+\par{V~této podkapitole budou stručně nastíněny některé základní přístupy k~metodě odečítání pozadí, dále zde bude označováno popředí jako $F$ (Foreground) a~pozadí obdobně jako $B$ (Background). Všechny metody spojuje základní myšlenka, spočívající ve statickém pozadí a~pohybujících se objektech v~popředí. Za před\-po\-kla\-du, že pohybující se objekt má v~čase~$t$ barvu (nebo rozložení barev) lišící se od pozadí~$B$ může být tento princip shrnut do následujícího vzorce,
+\begin{equation}
+	{F_t (s)} = \left\{
+	\begin{array}{ll}
+		1 & \textrm{když $d(I_{s,t},~B_s) > \tau$,}\\
+		0 & \textrm{jinak.}
+	\end{array} \right.
+\end{equation}
+Kde $F_t (s)$ je popředí~$F$ v~čase~$t$ na pozici pixelu~$s$, $d(I_{s,t},~B_s)$ označuje vzdálenost mezi aktuálním obrázkem~$I$ v~čase~$t$ na pozici pixelu~$s$ a~obrázkem pozadí~$B$ na pozici pixelu~$s$, $\tau$ je hodnota prahu. Největší rozdíl mezi většinou metod odečítání pozadí je, jakým způsobem je modelováno pozadí~$B$ a~jaká vzdálenostní metrika je použita pro výpočet~$d$. V~následujících podkapitolách bude představeno několik základních metod.}
+
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+%----------------ZAKLADNI-PRISTUP------------------------
+\subsection{Základní přístup}
+\label{sec:BS_teorie_zakladni_pristup}
+
+\label{sec:BS_zakladni}
+\par{Nejjednodušší cesta jak lze získat model pozadí~$B$ je použít obrázek ve stupních šedi nebo barevný obrázek, který neobsahuje žádné pohybující se objekty v~popředí~$F$. Za účelem udržení stále aktuálního modelu pozadí může být využito následujícího iterativního postupu aktualizace modelu pozadí~$B$,
+\begin{equation}
+	\bm{B}_{s,t+1} = (1 - \alpha)\bm{B}_{s,t} + \alpha \bm{I}_{s,t},
+\end{equation}
+kde $\alpha$ je aktualizační konstanta, jejíž hodnota může nabývat hodnot $\alpha \in \left< 0,~1 \right>$. V~extrémních případech pro $\alpha = 1$ nebude brán model pozadí $B_{s,t}$ v potaz, naopak v~případě $\alpha = 0$ se model pozadí nebude aktualizovat. Pixely náležící do popředí mohou být detekovány prahem s~různými metrikami, například
+\begin{eqnarray}
+	d_0 &= &|I_{s,t} - B_{s,t}|,\\
+	d_1 &= &|I_{s,t}^R - B_{s,t}^R| + |I_{s,t}^G - B_{s,t}^G| + | I_{s,t}^B - B_{s,t}^B|,\\
+	d_2 &= &(I_{s,t}^R - B_{s,t}^R)^2 + (I_{s,t}^G - B_{s,t}^G)^2 + (I_{s,t}^B - B_{s,t}^B)^2 ,\\
+	d_{\infty} &= &\max \{ |I_{s,t}^R - B_{s,t}^R|,~ |I_{s,t}^G - B_{s,t}^G|,~ | I_{s,t}^B - B_{s,t}^B| \},
+\end{eqnarray}
+kde exponenty $R$, $G$ a~$B$ reprezentují jednotlivé barevné kanály: červený, zelený a~modrý (Red, Green, Blue). Metrika~$d_0$ je speciálně pro obrázky v~odstínech šedi.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-----------FILTRACE-MEDIANEM------------------------
+\subsection{Filtrace mediánem}
+\label{sec:BS_teorie_filtrace_medianem}
+
+\par{Filtrace mediánem patří mezi nelineární filtraci, která vybírá z~blízkého, většinou u\-ži\-va\-te\-lem definovaného okolí hodnotu mediánu, kterou dosadí na aktuální pozici. Často se využívá ve fázi předzpracování pro zlepšení výsledků následného zpracování. Tento filtr je velmi účinný při odstraňování zrnitosti/šumu v~obraze. Jeho nevýhodou je, že může měnit tvary hran objektů. Po fázi předzpracování se využije postup naznačený v~(\ref{sec:BS_zakladni}).}
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+
+%----------------GAUSSOVSKE-ROZLOZENI-------------------
+\subsection{Gaussovské rozložení}
+\label{sec:BS_teorie_gaussovske_rozlozeni}
+
+\par{Tato metoda je založená na modelování každého pixelu pozadí pomocí funkce pravdě\-po\-do\-bno\-sti, která je učena pomocí sekvence trénovacích snímků pozadí. V~tomto případě základní problém určení prahu přechází v~problém nalezení prahu pro funkce pra\-vdě\-po\-do\-bno\-stí. S~přihlédnutím k~obrazovému šumu, lze trénovat každý pixel pomocí Gaussovského rozložení $\eta \left( \bm{\mu}_{s,t},~ \Sigma_{s,t} \right)$, kde $\bm{\mu}_{s,t}$ jsou střední hodnoty pixelu~$s$ do času~$t$ a~$\Sigma_{s,t}$ je kovarianční matice pixelu~$s$ do času~$t$. Gaussovské rozložení $\eta \left( \bm{\mu}_{s,t},~ \Sigma_{s,t} \right)$ v~tomto případě má tvar
+\begin{equation}
+	\eta \left( \bm{I}_{s, t}, \bm{\mu}_{s, t}, \Sigma_{s, t} \right) = \frac{1}{\left( 2 \pi \right)^{\frac{K}{2}} |\Sigma |^{\frac{1}{2}}} \cdot e^{-\frac{1}{2} \left( \bm{I}_{s, t} - \bm{\mu}_{s, t} \right)^{\top} \Sigma_{s, t}^{-1} \left( \bm{I}_{s, t} - \bm{\mu}_{s, t} \right) },
+\end{equation}
+kde $K$~je dimenze. Metriku lze určit pomocí Mahalanobisovi vzdálenosti
+\begin{equation}
+	d \left( \bm{I}_{s, t}, \bm{\mu}_{s, t} \right) = \sqrt{ \left( \bm{I}_{s, t} - \bm{\mu}_{s, t} \right)^{\top} \Sigma_{s, t}^{-1} \left( \bm{I}_{s, t} - \bm{\mu}_{s, t}\right) } ,
+\end{equation}
+kde $\bm{I}_{s,t}$ a~$\bm{\mu}_{s,t}$ jsou vektory a~$\Sigma_{s,t}$ je kovarianční matice. Aby byly zohledněny změny osvětlení, tak se střední hodnoty a~kovarianční matice mohou iterativně přepočítávat podle následujících vztahů
+\begin{eqnarray}
+	\bm{\mu}_{s, t + 1} &= &\left( 1 - \alpha \right) \bm{\mu}_{s, t} + \alpha \bm{I}_{s, t}, \\
+	\Sigma_{s, t + 1} &= &\left( 1 - \alpha \right) \Sigma_{s, t} + \alpha \left( \bm{I}_{s, t} - \bm{\mu}_{s, t} \right)^{\top} \left( \bm{I}_{s, t} - \bm{\mu}_{s, t} \right).
+\end{eqnarray}
+Kovarianční matice může být plná s~velikostí~$K \times K$ nebo může být pouze diago\-nální z~důvodu ušetření výpočetního času. V~případě, že se jedná o~barevný tří\-dimenzio\-nální RGB prostor bude $K = 3$.}
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+%----------------GAUSSOVSKA-SMES-(GMM)------------------------
+\subsection{Gaussovská směs (GMM)}
+\label{sec:BS_teorie_GMM}
+
+\par{Pro zohlednění pozadí, které obsahuje animované textury, jako například vlny na vodě, nebo listy zmítané ve větru, byly použity Gaussovské směsi (Gaussian Mixture Model - GMM). Princip spočívá v~modelování každého pixelu pozadí jako $K$~Gaussovských~směsí. Tedy pravděpodobnost výskytu barvy v~daném pixelu je zastoupena následovně,
+\begin{equation}
+	P \left( I_{s, t} \right) = \sum_{i=1}^{K} \omega_{i, s, t} \cdot \eta \left( \bm{I}_{s, t}, \bm{\mu}_{i, s, t}, \Sigma_{i, s, t} \right),
+\end{equation}
+kde $\eta \left( \bm{I}_{s, t}, \bm{\mu}_{s, t}, \Sigma_{i, s, t} \right)$ je $i$-tý Gaussovský model a~$\omega_{i, s, t}$ je jeho váha. Jednotlivé parametry se mohou iterativně měnit podle vztahů,
+\begin{eqnarray}
+	\omega_{i, s, t} &= &(1 - \alpha) \omega_{i, s, t-1} + \alpha, \\
+	\bm{\mu}_{i, s, t} &= &(1 - \rho) \bm{\mu}_{i, s, t-1} + \rho \bm{I}_{i, s, t}, \\
+	\Sigma_{i, s, t} &= &(1 - \rho) \Sigma_{i, s, t} + \rho \left( \bm{I}_{i, s, t} - \bm{\mu}_{i, s, t} \right)^{\top} \left( \bm{I}_{i, s, t} - \bm{\mu}_{i, s, t} \right) ,
+\end{eqnarray}
+kde $\alpha$ je uživatelem volený parametr učení a~$\rho$ je uživatelem druhý volený parametr, který je definován jako
+\begin{equation}
+	\rho = \alpha \cdot \eta \left( \bm{I}_{s, t}, \bm{\mu}_{i, s, t}, \Sigma_{i, s, t} \right).
+\end{equation}
+Parametry $\mu$ a~$\sigma$ nevyužitých rozdělení zůstávají stejné, zatímco jejich váhy jsou redukovány podle vztahu $\omega_{i, s, t} = \left( 1 - \alpha \right) \omega_{i, s, t-1}$, pro dosažení nulového ovlivnění výsledné pravděpodobnosti. Pokaždé, když neodpovídá žádná komponenta $\bm{I}_{s, t}$, tak je rozložení s~nejmenší váhou nahrazenou Gaussovským rozložením s~velkou počáteční variancí $\sigma_0$ a~malou po\-čá\-teč\-ní váhou $\omega_0$. Při každé aktualizaci Gaussovské směsi je $K$~vah $\omega_{i, s, t}$ normalizováno tak, aby v součtu dávaly 1. Následně je $K$~rozdělení seřazeno podle hodnoty $\omega_{i, s , t}$ nebo $\sigma_{i, s, t}$ a~pouze $H$~nejvíce se hodících, je použito jako část pozadí. Následně pixely, které jsou vzdálené více než $2.5$ násobek směrodatné odchylky od některého z~těchto $H$~rozdělení, jsou teprve označeny za pohybující se objekty v~popředí.}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+%------------------KERNEL-DENSITY-ESTIMATION-----------------------
+\subsection{Kernel Density Estimace (KDE)}
+\label{sec:BS_teorie_KDE}
+
+\par{Neparametrický přístup může být také využit pro modelování Gaussovských směsí. V~tom\-to ohledu byl navržen odhad pomocí Parzen-okénka. Pokud se jedná o~barevné snímky z~videa, může být jednodimenzionální jádro vytvořeno následovně,
+\begin{equation}
+	P \left( \bm{I}_{s, t} \right) = \frac{1}{N} \sum_{i = t - N}^{t - 1} \prod_{j=\{R,G,B\}} K \left( \frac{ \left( I_{s, t}^{j} - I_{s, i}^{j} \right) }{\sigma_j} \right),
+\end{equation}
+kde $K$ je jádro (typicky Gaussovské rozložení) a~$N$ je počet předchozích snímků použitých pro odhad. Pixel je označen jako popředí, pokud je nepravděpodobné, že pixel pochází z~tohoto rozdělení. Tedy pokud je $P \left( \bm{I}_{s, t} \right)$ menší než předdefinovaná prahová hodnota. Kde $\sigma_j$ může být neměnná nebo může být odhadnuta předem.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+
+%--------------------MODELOVANI-HISTOGRAMEM--------------------
+\subsection{Modelování histogramem}
+\label{sec:BS_teorie_modelovani_histogramem}
+
+\par{Mezi další možnost jak oddělit pozadí od pohybujících se objektů v popředí, pomocí metody odečítání pozadí, je modelování pomocí histogramu. Hlavní myšlenka spočívá v~rozdělení obrázku na menší obrazové části, ze kterých se vytvoří 1D~histogramy v~případě obrázku v~odstínech šedi, nebo 3D histogramy v~případě barevného obrázku. Tento postup se opakuje pro každý snímek videosekvence pro všechny obrazové části. Na základě porovnání dvou snímků lze určit, zda nastala změna v~histogramech a~vyhodnotit pohybující se objekt. Tedy pokud $H_1$ a~$H_2$ označují histogramy ve stejné obrazové části ve dvou snímcích, je možno vzdálenost $d \left( H_1, H_2 \right)$ určit pomocí Pearsonovi korelace $r_{H_1 , H_2}$
+\begin{equation}
+	d \left( H_1, H_2 \right) = 1 - r_{H_1 , H_2},
+\end{equation}
+kde
+\begin{equation}
+	r_{H_1 , H_2} = \frac{\sum\limits_{i = 1}^{N} \left( H_1^i - \bar{H}_1 \right) \left( H_2^i - \bar{H}_2 \right)}{\sqrt{\sum\limits_{i = 1}^{N} \left( H_1^i - \bar{H}_1 \right)^2 \cdot \sum\limits_{i = 1}^{N} \left( H_2^i - \bar{H}_2 \right)^2}}.
+\end{equation}
+$\bar{H}_1$ a~$\bar{H}_2$ jsou střední hodnoty
+\begin{equation}
+	\bar{H}_j = \frac{1}{N} \sum_{i = 1}^N H_j^i ,~~ j \in \{1,2 \}
+\end{equation}
+a~$N$ je počet intervalů (bins) umocněný na počet dimenzí histogramu (v~případě, že je počet intervalů ve všech dimenzí stejný). Mezi další možné metriky patří Chi-Square vzdálenost
+\begin{equation}
+	d \left( H_1, H_2 \right) = \sum\limits_{i = 1}^{N} \frac{ \left( H_1^i - H_2^i \right)^2}{H_1^i}
+\end{equation}
+a~Bhattacharyyaova vzdálenost
+\begin{equation}
+	d \left( H_1, H_2 \right) = \sqrt{1 - \frac{1}{\bar{H}_1 \bar{H}_2 N^2} \sum\limits_{i = 1}^{N} \sqrt{H_1^i H_2^i}}.
+\end{equation}
+Na závěr se určí prahová hodnota $\tau$, při které pixely patří do popředí a~tvoří pohybující se objekty.}
+
+
+
+
+
+
+
+
+
+

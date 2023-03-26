@@ -1,0 +1,61 @@
+\select@language {czech}
+\contentsline {chapter}{\numberline {1}P\IeC {\v r}edmluva}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}\IeC {\'U}vod}{2}{chapter.2}
+\contentsline {section}{\numberline {2.1}Co je strojov\IeC {\'e} u\IeC {\v c}en\IeC {\'\i }?}{2}{section.2.1}
+\contentsline {section}{\numberline {2.2}U\IeC {\v c}en\IeC {\'\i } s u\IeC {\v c}itelem}{3}{section.2.2}
+\contentsline {section}{\numberline {2.3}U\IeC {\v c}en\IeC {\'\i } bez u\IeC {\v c}itele}{3}{section.2.3}
+\contentsline {chapter}{\numberline {3}Line\IeC {\'a}rn\IeC {\'\i } regrese}{4}{chapter.3}
+\contentsline {section}{\numberline {3.1}Motivace}{4}{section.3.1}
+\contentsline {section}{\numberline {3.2}U\IeC {\v c}en\IeC {\'\i } s u\IeC {\v c}itelem}{5}{section.3.2}
+\contentsline {section}{\numberline {3.3}Ztr\IeC {\'a}tov\IeC {\'a} funkce}{7}{section.3.3}
+\contentsline {section}{\numberline {3.4}Gradientn\IeC {\'\i } algoritmus}{8}{section.3.4}
+\contentsline {section}{\numberline {3.5}V\IeC {\'\i }cerozm\IeC {\v e}rn\IeC {\'a} line\IeC {\'a}rn\IeC {\'\i } regrese}{10}{section.3.5}
+\contentsline {section}{\numberline {3.6}Gradientn\IeC {\'\i } algoritmus - v\IeC {\'\i }cerozm\IeC {\v e}rn\IeC {\'a} verze}{11}{section.3.6}
+\contentsline {section}{\numberline {3.7}Features scaling}{12}{section.3.7}
+\contentsline {section}{\numberline {3.8}Analytick\IeC {\'e} \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{13}{section.3.8}
+\contentsline {section}{\numberline {3.9}Gradientn\IeC {\'\i } algoritmus vs. analytick\IeC {\'e} \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{14}{section.3.9}
+\contentsline {chapter}{\numberline {4}Bin\IeC {\'a}rn\IeC {\'\i } regrese - klasifikace}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}Klasifikace}{15}{section.4.1}
+\contentsline {section}{\numberline {4.2}Reprezentace hypot\IeC {\'e}zy}{18}{section.4.2}
+\contentsline {section}{\numberline {4.3}Rozhodovac\IeC {\'\i } hranice}{20}{section.4.3}
+\contentsline {section}{\numberline {4.4}Ztr\IeC {\'a}tov\IeC {\'a} funkce}{23}{section.4.4}
+\contentsline {section}{\numberline {4.5}Zjednodu\IeC {\v s}en\IeC {\'a} ztr\IeC {\'a}tov\IeC {\'a} funkce a gradientn\IeC {\'\i } metoda}{25}{section.4.5}
+\contentsline {section}{\numberline {4.6}Pokro\IeC {\v c}il\IeC {\'e} algoritmy optimalizace}{27}{section.4.6}
+\contentsline {section}{\numberline {4.7}Klasifikace do v\IeC {\'\i }ce t\IeC {\v r}\IeC {\'\i }d}{29}{section.4.7}
+\contentsline {chapter}{\numberline {5}Regularizace}{31}{chapter.5}
+\contentsline {section}{\numberline {5.1}Probl\IeC {\'e}m p\IeC {\v r}etr\IeC {\'e}nov\IeC {\'a}n\IeC {\'\i }}{31}{section.5.1}
+\contentsline {section}{\numberline {5.2}Ztr\IeC {\'a}tov\IeC {\'a} funkce}{33}{section.5.2}
+\contentsline {section}{\numberline {5.3}Regularizace line\IeC {\'a}rn\IeC {\'\i } regrese}{35}{section.5.3}
+\contentsline {section}{\numberline {5.4}Regularizace bin\IeC {\'a}rn\IeC {\'\i } regrese}{37}{section.5.4}
+\contentsline {chapter}{\numberline {6}Neuronov\IeC {\'e} s\IeC {\'\i }t\IeC {\v e}}{39}{chapter.6}
+\contentsline {section}{\numberline {6.1}Neline\IeC {\'a}rn\IeC {\'\i } hypot\IeC {\'e}zy}{39}{section.6.1}
+\contentsline {section}{\numberline {6.2}Neurony a lidsk\IeC {\'y} mozek}{39}{section.6.2}
+\contentsline {section}{\numberline {6.3}Reprezentace modelu}{39}{section.6.3}
+\contentsline {section}{\numberline {6.4}P\IeC {\v r}\IeC {\'\i }klady}{39}{section.6.4}
+\contentsline {section}{\numberline {6.5}Klasifikace do v\IeC {\'\i }ce t\IeC {\v r}\IeC {\'\i }d}{39}{section.6.5}
+\contentsline {chapter}{\numberline {7}Neuronov\IeC {\'e} s\IeC {\'\i }t\IeC {\v e} u\IeC {\v c}en\IeC {\'\i }}{40}{chapter.7}
+\contentsline {section}{\numberline {7.1}Ztr\IeC {\'a}tov\IeC {\'a} funkce}{40}{section.7.1}
+\contentsline {section}{\numberline {7.2}Algoritmus zp\IeC {\v e}tn\IeC {\'e}ho \IeC {\v s}\IeC {\'\i }\IeC {\v r}en\IeC {\'\i } chyby}{40}{section.7.2}
+\contentsline {section}{\numberline {7.3}Gradient Checking}{40}{section.7.3}
+\contentsline {section}{\numberline {7.4}N\IeC {\'a}hodn\IeC {\'a} inicializace}{40}{section.7.4}
+\contentsline {section}{\numberline {7.5}P\IeC {\v r}\IeC {\'\i }klady}{40}{section.7.5}
+\contentsline {chapter}{\numberline {8}Suport Vector Machine (SVM)}{41}{chapter.8}
+\contentsline {section}{\numberline {8.1}C\IeC {\'\i }l optimalizace}{41}{section.8.1}
+\contentsline {section}{\numberline {8.2}Large margin}{41}{section.8.2}
+\contentsline {section}{\numberline {8.3}Mathematic Behind Large Margin Classification}{41}{section.8.3}
+\contentsline {section}{\numberline {8.4}Kernels / J\IeC {\'a}dra}{41}{section.8.4}
+\contentsline {section}{\numberline {8.5}Kernel Trick}{41}{section.8.5}
+\contentsline {section}{\numberline {8.6}Pou\IeC {\v z}it\IeC {\'\i } SVM}{41}{section.8.6}
+\contentsline {chapter}{\numberline {9}Shlukov\IeC {\'a}n\IeC {\'\i }}{42}{chapter.9}
+\contentsline {section}{\numberline {9.1}U\IeC {\v c}en\IeC {\'\i } bez u\IeC {\v c}itele}{42}{section.9.1}
+\contentsline {section}{\numberline {9.2}K-Means}{44}{section.9.2}
+\contentsline {section}{\numberline {9.3}C\IeC {\'\i }l optimalizace}{45}{section.9.3}
+\contentsline {section}{\numberline {9.4}N\IeC {\'a}hodn\IeC {\'a} inicializace}{46}{section.9.4}
+\contentsline {section}{\numberline {9.5}Volba po\IeC {\v c}tu shluk\IeC {\r u}}{47}{section.9.5}
+\contentsline {chapter}{\numberline {10}Redukce dimenze}{48}{chapter.10}
+\contentsline {section}{\numberline {10.1}Anal\IeC {\'y}za hlavn\IeC {\'\i }ch komponent}{48}{section.10.1}
+\contentsline {section}{\numberline {10.2}Linear discriminant analysis}{48}{section.10.2}
+\contentsline {chapter}{\numberline {11}Ostatn\IeC {\'\i }}{49}{chapter.11}
+\contentsline {section}{\numberline {11.1}GMM}{49}{section.11.1}
+\contentsline {section}{\numberline {11.2}Jak postavit test}{49}{section.11.2}
+\contentsline {section}{\numberline {11.3}Vyhodnocov\IeC {\'a}n\IeC {\'\i } \IeC {\'u}sp\IeC {\v e}\IeC {\v s}nosti klasifikace}{49}{section.11.3}
